@@ -109,7 +109,7 @@
             android:text="@string/login"
             android:textAllCaps="false"
             android:transitionName="cred_button"
-
+            android:onClick="loginUser"
             android:textSize="20sp"
             />
 
