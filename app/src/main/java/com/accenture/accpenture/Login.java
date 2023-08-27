@@ -1,6 +1,7 @@
 package com.accenture.accpenture;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ public class Login extends AppCompatActivity {
     // Variables
     Animation left2right;
     ImageView logo;
+    Button btnRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,16 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         logo = findViewById(R.id.imageLogoLogin);
+
+        btnRegister = findViewById(R.id.loginPageNewUser);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }
@@ -81,5 +94,10 @@ public class Login extends AppCompatActivity {
             // passed down to descendant views.
             return WindowInsetsCompat.CONSUMED;
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

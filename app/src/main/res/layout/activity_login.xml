@@ -100,6 +100,7 @@
             android:layout_marginBottom="10dp"
             android:layout_height="wrap_content"
             android:text="@string/login"
+            android:transitionName="cred_button"
             android:textSize="20sp"
             android:background="@drawable/button_purple500_radius_5"
             android:textAllCaps="false"
