@@ -108,7 +108,6 @@
             app:counterEnabled="true"
             app:endIconMode="clear_text"
             app:counterMaxLength="15"
-            app:helperText=""
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/textUsername">
             <com.google.android.material.textfield.TextInputEditText
