@@ -3,7 +3,6 @@ package com.accenture.accpenture;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -12,7 +11,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
-import com.accenture.accpenture.database.UserHelperClass;
+import com.accenture.accpenture.database.UserHelperClassFirebase;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,7 +26,7 @@ public class Register extends AppCompatActivity {
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
-    UserHelperClass helperClass;
+    UserHelperClassFirebase helperClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +106,8 @@ public class Register extends AppCompatActivity {
         _fName = _fName.substring(0, 1).toUpperCase() + _fName.substring(1).toLowerCase().trim();
         _lName = _lName.substring(0, 1).toUpperCase() + _lName.substring(1).toLowerCase().trim();
 
-        // Create UserHelperClass object
-        helperClass = new UserHelperClass(_username, _password, _email, _fName, _lName, _phone);
+        // Create UserHelperClassFirebase object
+        helperClass = new UserHelperClassFirebase(_username, _password, _email, _fName, _lName, _phone);
 
         reference.child(_username).setValue(helperClass);
     }

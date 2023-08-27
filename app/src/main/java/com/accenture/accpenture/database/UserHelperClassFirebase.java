@@ -1,12 +1,12 @@
 package com.accenture.accpenture.database;
 
-public class UserHelperClass {
+public class UserHelperClassFirebase {
     private String username, password, email, fName, lName, phone;
 
-    public UserHelperClass() {
+    public UserHelperClassFirebase() {
     }
 
-    public UserHelperClass(String username, String password, String email, String fName, String lName, String phone) {
+    public UserHelperClassFirebase(String username, String password, String email, String fName, String lName, String phone) {
         this.username = username;
         this.password = password;
         this.email = email;

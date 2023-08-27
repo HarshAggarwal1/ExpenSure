@@ -24,6 +24,8 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
+import com.accenture.accpenture.database.AppData;
+import com.accenture.accpenture.database.Database;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +41,7 @@ public class Login extends AppCompatActivity {
     // Variables
     private Button btnRegister, btnLogin;
     private TextInputLayout username, password;
+    private Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,6 +158,9 @@ public class Login extends AppCompatActivity {
                         String username = snapshot.child(_username).child("username").getValue(String.class);
                         String name = fName + " " + lName;
 
+                        database = Database.getInstance(getApplicationContext());
+                        database.appDao().insert(new AppData(email, passwordFromDB, fName, lName, phone, username));
+
 //                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
 //                        intent.putExtra("name", name);
 //                        intent.putExtra("username", username);
@@ -162,6 +168,7 @@ public class Login extends AppCompatActivity {
 //                        intent.putExtra("phone", phone);
 //                        intent.putExtra("password", passwordFromDB);
 //                        startActivity(intent);
+
                     }
                     else {
                         password.setError("Wrong Password");
