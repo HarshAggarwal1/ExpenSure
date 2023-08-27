@@ -1,8 +1,11 @@
 package com.accenture.accpenture;
 
+import android.app.Dialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -15,6 +18,8 @@ import com.accenture.accpenture.database.UserHelperClassFirebase;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
@@ -23,10 +28,13 @@ public class Register extends AppCompatActivity {
     // Variables
     private Button btnLogin, btnRegister;
     private TextInputLayout username, password, email, confirmPassword, fName, lName, phone;
+    private Dialog dialog;
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
+    StorageReference storageReference;
     UserHelperClassFirebase helperClass;
+    Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +89,9 @@ public class Register extends AppCompatActivity {
     }
 
     public void registerUser(View v) {
+
+        showProgressBar();
+
         // Get all the values
         String _username = Objects.requireNonNull(username.getEditText()).getText().toString();
         String _password = Objects.requireNonNull(password.getEditText()).getText().toString();
@@ -89,6 +100,7 @@ public class Register extends AppCompatActivity {
         String _fName = Objects.requireNonNull(fName.getEditText()).getText().toString();
         String _lName = Objects.requireNonNull(lName.getEditText()).getText().toString();
         String _phone = Objects.requireNonNull(phone.getEditText()).getText().toString();
+
 
         // Check if all fields are valid
         boolean[] valid = {validateUsername(), validatePassword(), validateEmail(), validateConfirmPassword(), validateFName(), validateLName(), validateMobile()};
@@ -109,7 +121,38 @@ public class Register extends AppCompatActivity {
         // Create UserHelperClassFirebase object
         helperClass = new UserHelperClassFirebase(_username, _password, _email, _fName, _lName, _phone);
 
-        reference.child(_username).setValue(helperClass);
+        reference.child(_username).setValue(helperClass).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                uploadImage(_username);
+            }
+            else {
+                username.setError("Username already exists");
+            }
+        });
+
+    }
+
+    private void uploadImage(String _username) {
+        // Upload image to Firebase Storage
+        imageUri = Uri.parse("android.resource://com.accenture.accpenture/drawable/profile_dp");
+        storageReference = FirebaseStorage.getInstance().getReference("profile_pictures/"+_username);
+        storageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+            // Get the download URL
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                // Update the profile picture URL in the database
+                reference.child(_username).child("profilePicture").setValue(uri.toString()).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        hideProgressBar();
+                        Toast.makeText(Register.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                    }
+                    else {
+                        hideProgressBar();
+                        Toast.makeText(Register.this, "Failed to Upload the Image.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
+        });
     }
 
     private boolean validateUsername() {
@@ -228,6 +271,18 @@ public class Register extends AppCompatActivity {
             phone.setError(null);
             return true;
         }
+    }
+
+    private void showProgressBar() {
+        dialog = new Dialog(Register.this);
+        dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.progress_bar);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+    private void hideProgressBar() {
+        dialog.dismiss();
     }
 
     @Override

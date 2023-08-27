@@ -1,19 +1,12 @@
 package com.accenture.accpenture;
 
-import android.animation.ObjectAnimator;
 import android.app.ActivityOptions;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Pair;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +35,7 @@ public class Login extends AppCompatActivity {
     private Button btnRegister, btnLogin;
     private TextInputLayout username, password;
     private Database database;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +126,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void isUser() {
+        showProgressBar();
         String _username = Objects.requireNonNull(username.getEditText()).getText().toString().trim();
         String _password = Objects.requireNonNull(password.getEditText()).getText().toString().trim();
 
@@ -156,7 +151,6 @@ public class Login extends AppCompatActivity {
                         String phone = snapshot.child(_username).child("phone").getValue(String.class);
                         String email = snapshot.child(_username).child("email").getValue(String.class);
                         String username = snapshot.child(_username).child("username").getValue(String.class);
-                        String name = fName + " " + lName;
 
                         database = Database.getInstance(getApplicationContext());
                         database.appDao().insert(new AppData(email, passwordFromDB, fName, lName, phone, username));
@@ -169,13 +163,19 @@ public class Login extends AppCompatActivity {
 //                        intent.putExtra("password", passwordFromDB);
 //                        startActivity(intent);
 
+                        hideProgressBar();
+                        Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
+
                     }
                     else {
+                        hideProgressBar();
                         password.setError("Wrong Password");
                         password.requestFocus();
                     }
+                    hideProgressBar();
                 }
                 else {
+                    hideProgressBar();
                     username.setError("No such User exists");
                     username.requestFocus();
                 }
@@ -183,7 +183,7 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                hideProgressBar();
             }
         });
     }
@@ -230,5 +230,17 @@ public class Login extends AppCompatActivity {
             password.setHelperText("");
             return true;
         }
+    }
+
+    private void showProgressBar() {
+        dialog = new Dialog(Login.this);
+        dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.progress_bar);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+    private void hideProgressBar() {
+        dialog.dismiss();
     }
 }
