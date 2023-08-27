@@ -10,6 +10,7 @@
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
     android:layout_marginBottom="20dp"
+    android:id="@+id/loginTempLayout"
     tools:context=".Login">
 
     <ImageView
@@ -56,8 +57,11 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/loginUsername"
             android:layout_width="match_parent"
+            android:transitionName="username_move"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="15"
             android:textColorHint="@color/purple_500"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/textUsername">
@@ -70,15 +74,15 @@
             android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:textColorHint="@color/purple_500"
             app:passwordToggleEnabled="true"
-            app:passwordToggleContentDescription="@string/login"
+            android:transitionName="pass_move"
             android:hint="@string/textPassword">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
@@ -92,19 +96,20 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:elevation="0dp"/>
+
         <Button
             android:id="@+id/loginButton"
             android:layout_width="200dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:layout_height="wrap_content"
+            android:background="@drawable/button_purple500_radius_5"
+            android:fontFamily="sans-serif"
             android:text="@string/login"
+            android:textAllCaps="false"
             android:transitionName="cred_button"
             android:textSize="20sp"
-            android:background="@drawable/button_purple500_radius_5"
-            android:textAllCaps="false"
-            android:fontFamily="sans-serif"
             />
 
         <Button

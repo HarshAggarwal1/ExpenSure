@@ -1,9 +1,13 @@
 package com.accenture.accpenture;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -12,10 +16,19 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
+
+import kotlin.io.LineReader;
+
 public class Register extends AppCompatActivity {
 
     // Variables
-    Button loginButton;
+    private Button btnLogin, btnRegister;
+    private ImageView imageLogo;
+    private TextInputLayout username, password;
+    private LinearLayout tempLayout;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +47,17 @@ public class Register extends AppCompatActivity {
 
         setContentView(R.layout.activity_register);
 
-        loginButton = findViewById(R.id.backToLoginButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
+        btnLogin = findViewById(R.id.backToLoginButton);
+        imageLogo = findViewById(R.id.imageLogoRegister);
+        btnRegister = findViewById(R.id.registerButton);
+        username = findViewById(R.id.registerUsername);
+        password = findViewById(R.id.registerPassword);
+        tempLayout = findViewById(R.id.registerTempLayout);
+
+        btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Register.this, Login.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
     }
@@ -62,6 +80,6 @@ public class Register extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        finishAffinity();
+        super.onBackPressed();
     }
 }

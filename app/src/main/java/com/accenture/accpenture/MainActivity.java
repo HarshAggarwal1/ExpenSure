@@ -23,9 +23,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Variables
     private static final int SPLASH_SCREEN = 3000;
-    Animation topAnim, bottomAnim;
-    ImageView imageLogo;
-    TextView textLogo;
+    private Animation topAnim, bottomAnim;
+    private ImageView imageLogo;
+    private TextView textLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,5 +85,10 @@ public class MainActivity extends AppCompatActivity {
             // passed down to descendant views.
             return WindowInsetsCompat.CONSUMED;
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

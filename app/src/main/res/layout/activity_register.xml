@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:id="@+id/registerTempLayout"
         android:gravity="center_horizontal"
         android:transitionName="logo_string"
         android:layout_marginTop="20dp">
@@ -107,13 +108,15 @@
             android:textColorHint="@color/purple_500"
             app:counterEnabled="true"
             app:endIconMode="clear_text"
+            android:transitionName="username_move"
             app:counterMaxLength="15"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/textUsername">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"/>
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -122,6 +125,7 @@
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:textColorHint="@color/purple_500"
+            android:transitionName="pass_move"
             app:passwordToggleEnabled="true"
             android:hint="@string/textPassword">
 
@@ -160,7 +164,7 @@
 
         <Button
             android:id="@+id/registerButton"
-            android:layout_width="320dp"
+            android:layout_width="200dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
@@ -182,7 +186,6 @@
             android:text="@string/have_an_account"
             android:textSize="20sp"
             android:textColor="@color/black"
-            android:transitionName="cred_button"
             android:background="#00000000"
             android:textAllCaps="false"
             android:fontFamily="sans-serif"

@@ -1,10 +1,12 @@
 package com.accenture.accpenture;
 
 import android.animation.ObjectAnimator;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
@@ -21,12 +23,15 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 public class Login extends AppCompatActivity {
 
     // Variables
-    Animation left2right;
-    ImageView logo;
-    Button btnRegister;
+    private ImageView imageLogo;
+    private LinearLayout tempLayout;
+    private Button btnRegister, btnLogin;
+    private TextInputLayout username, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +50,22 @@ public class Login extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-        logo = findViewById(R.id.imageLogoLogin);
-
+        imageLogo = findViewById(R.id.imageLogoLogin);
+        tempLayout = findViewById(R.id.loginTempLayout);
+        username = findViewById(R.id.loginUsername);
+        password = findViewById(R.id.loginPassword);
         btnRegister = findViewById(R.id.loginPageNewUser);
+        btnLogin = findViewById(R.id.loginButton);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Register.class);
-                startActivity(intent);
+                Pair[] pairs = new Pair[3];
+                pairs[0] = new Pair<View, String>(username, "username_move");
+                pairs[1] = new Pair<View, String>(password, "pass_move");
+                pairs[2] = new Pair<View, String>(btnRegister, "cred_button");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Login.this, pairs);
+                startActivity(intent, options.toBundle());
             }
         });
 
