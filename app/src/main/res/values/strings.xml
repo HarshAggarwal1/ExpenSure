@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AccpenSure</string>
+    <string name="signInText1">Sign in</string>
+    <string name="signInText2">to your account</string>
+    <string name="textUsername">Username</string>
+    <string name="textPassword">Password</string>
+    <string name="forgotPassword">Forgot Password?</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+</resources>

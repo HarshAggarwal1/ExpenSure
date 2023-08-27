@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "933743857352",
+    "project_id": "accpensure",
+    "storage_bucket": "accpensure.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933743857352:android:620bef8fddc05cf35edffd",
+        "android_client_info": {
+          "package_name": "com.accenture.accpenture"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933743857352-8dkla7p5of8ebn9rk5vip6argp60k9em.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.accenture.accpenture",
+            "certificate_hash": "eb24b22e0bac34babb9d742fd8af3b697372bef8"
+          }
+        },
+        {
+          "client_id": "933743857352-259sbm97224lk1mo6mr6s5q6l58jdm20.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHJZL_EonAYJcrbKfJiNPI9Y5Cqv-Q1is"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933743857352-259sbm97224lk1mo6mr6s5q6l58jdm20.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
