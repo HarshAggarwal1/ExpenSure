@@ -1,12 +1,26 @@
 package com.accenture.accpenture;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.Objects;
 
 public class Register extends AppCompatActivity {
@@ -29,12 +44,14 @@ public class Register extends AppCompatActivity {
     private Button btnLogin, btnRegister;
     private TextInputLayout username, password, email, confirmPassword, fName, lName, phone;
     private Dialog dialog;
+    private ImageView profileDP;
+    private static boolean isImageSelected = false;
 
     FirebaseDatabase rootNode;
     DatabaseReference reference;
     StorageReference storageReference;
     UserHelperClassFirebase helperClass;
-    Uri imageUri;
+    private static Uri imageUri, dpUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +79,16 @@ public class Register extends AppCompatActivity {
         fName = findViewById(R.id.registerFirstName);
         lName = findViewById(R.id.registerLastName);
         phone = findViewById(R.id.registerContact);
+        profileDP = findViewById(R.id.pickProfileDP);
 
+        // Pick Profile Picture
+        profileDP.setOnClickListener(v -> {
+            // only images
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            pickMedia.launch(intent);
+        });
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +132,7 @@ public class Register extends AppCompatActivity {
         boolean[] valid = {validateUsername(), validatePassword(), validateEmail(), validateConfirmPassword(), validateFName(), validateLName(), validateMobile()};
         for (boolean b : valid) {
             if (!b) {
+                hideProgressBar();
                 return;
             }
         }
@@ -135,6 +162,9 @@ public class Register extends AppCompatActivity {
     private void uploadImage(String _username) {
         // Upload image to Firebase Storage
         imageUri = Uri.parse("android.resource://com.accenture.accpenture/drawable/profile_dp");
+        if (isImageSelected) {
+            imageUri = dpUri;
+        }
         storageReference = FirebaseStorage.getInstance().getReference("profile_pictures/"+_username);
         storageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
             // Get the download URL
@@ -284,6 +314,50 @@ public class Register extends AppCompatActivity {
     private void hideProgressBar() {
         dialog.dismiss();
     }
+
+    public String getFilePathFromURI(Uri uri) {
+        String path = null;
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if(cursor.moveToFirst()){
+            int column_index = cursor.getColumnIndexOrThrow(android.provider.MediaStore.Images.Media.DATA);
+            path = cursor.getString(column_index);
+        }
+        cursor.close();
+        return path;
+    }
+    ActivityResultLauncher<Intent> pickMedia = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if (o.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = o.getData();
+                        if (data != null) {
+                            isImageSelected = true;
+                            dpUri = data.getData();
+                            final String path = getFilePathFromURI(dpUri);
+                            if (path != null) {
+                                File f = new File(path);
+                                dpUri = Uri.fromFile(f);
+                            }
+                            profileDP.setImageURI(dpUri);
+                        }
+                    }
+                    else {
+                        Toast.makeText(Register.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+//        pickMedia.launch(new PickVisualMediaRequest.Builder()
+//                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+//                .build());
+//
+//        String mimeType = "image/*";
+//        pickMedia.launch(new PickVisualMediaRequest.Builder()
+//                .setMediaType(new ActivityResultContracts.PickVisualMedia.SingleMimeType(mimeType))
+//                .build());
 
     @Override
     public void onBackPressed() {
