@@ -122,7 +122,6 @@ public class Register extends AppCompatActivity {
         String _username = Objects.requireNonNull(username.getEditText()).getText().toString();
         String _password = Objects.requireNonNull(password.getEditText()).getText().toString();
         String _email = Objects.requireNonNull(email.getEditText()).getText().toString();
-        String _confirmPassword = Objects.requireNonNull(confirmPassword.getEditText()).getText().toString();
         String _fName = Objects.requireNonNull(fName.getEditText()).getText().toString();
         String _lName = Objects.requireNonNull(lName.getEditText()).getText().toString();
         String _phone = Objects.requireNonNull(phone.getEditText()).getText().toString();
