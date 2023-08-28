@@ -52,18 +52,29 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/pickProfileDP"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
+            android:id="@+id/registerProfileDP"
             android:layout_marginTop="20dp"
+            android:clickable="false"
+            android:focusable="false"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="10dp"
+            app:cardBackgroundColor="#FF0A2F42">
+        <ImageView
+            android:id="@+id/pickProfileDP"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
             android:src="@drawable/profile_dp"
             android:scaleType="fitXY"
-            android:padding="20dp"
             android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/register_page_dp_circle"/>
+            android:focusable="true" />
+        </com.google.android.material.card.MaterialCardView>
+        <!--            android:padding="20dp"-->
+<!--            android:background="@drawable/register_page_dp_circle"-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

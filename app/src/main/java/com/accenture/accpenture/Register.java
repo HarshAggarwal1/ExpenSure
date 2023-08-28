@@ -340,6 +340,7 @@ public class Register extends AppCompatActivity {
                                 File f = new File(path);
                                 dpUri = Uri.fromFile(f);
                             }
+                            profileDP.setPadding(0, 0, 0, 0);
                             profileDP.setImageURI(dpUri);
                         }
                     }
