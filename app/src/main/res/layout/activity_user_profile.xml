@@ -7,5 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".UserProfile">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </RelativeLayout>
 
 </LinearLayout>

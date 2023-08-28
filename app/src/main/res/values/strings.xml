@@ -14,5 +14,5 @@
     <string name="textEmail">Email</string>
     <string name="textContact">Contact Number</string>
     <string name="textConfirmPassword">Confirm Password</string>
-    <string name="have_an_account">Already have an account?</string>
+    <string name="have_an_account">Already Registered?</string>
 </resources>
