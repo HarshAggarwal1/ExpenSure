@@ -15,4 +15,7 @@
     <string name="textContact">Contact Number</string>
     <string name="textConfirmPassword">Confirm Password</string>
     <string name="have_an_account">Already Registered?</string>
+    <string name="continueText">Continue</string>
+    <string name="furtherSteps">further steps</string>
+    <string name="cancel">Cancel</string>
 </resources>

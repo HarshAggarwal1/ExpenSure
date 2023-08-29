@@ -249,14 +249,13 @@ public class Login extends AppCompatActivity {
     }
 
     public void loginRegisterWithGoogle(View view) {
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-//        Intent signInIntent = googleSignInClient.getSignInIntent();
-//        googleSignInClient.signOut();
-//        googleSignInLauncher.launch(signInIntent);
-        startMaterialContainerTransform();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        googleSignInClient.signOut();
+        googleSignInLauncher.launch(signInIntent);
 
     }
 
@@ -277,7 +276,12 @@ public class Login extends AppCompatActivity {
                             System.out.println("Email: " + email);
                             System.out.println("Name: " + fName + " " + lName);
                             System.out.println("Uri: " + dp_uri);
-                            new Handler(Looper.getMainLooper()).postDelayed(() -> startMaterialContainerTransform(), 500);
+                            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startMaterialContainerTransform();
+                                }
+                            }, 200);
                         }
                         catch (ApiException e) {
                             e.printStackTrace();
@@ -297,5 +301,11 @@ public class Login extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
         setExitSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
         getWindow().setSharedElementsUseOverlay(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }
