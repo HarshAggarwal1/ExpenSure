@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AccpenSure</string>
+    <string name="app_name">ExpenSure</string>
     <string name="signInText1">Sign in</string>
     <string name="signInText2">to your account</string>
     <string name="textUsername">Username</string>

@@ -162,6 +162,7 @@
             android:padding="10dp"
             android:layout_marginEnd="10dp"
             android:layout_gravity="center"
+            android:onClick="loginRegisterWithGoogle"
             android:scaleType="fitXY"
             android:elevation="1dp"
             android:focusable="true"

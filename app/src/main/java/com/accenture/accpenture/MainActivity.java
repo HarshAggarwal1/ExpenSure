@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Hooks
         imageLogo = findViewById(R.id.imageLogo);
         textLogo = findViewById(R.id.textLogo);
-        String logoName = "AccpenSure";
+        String logoName = "ExpenSure";
         textLogo.setText(logoName.toLowerCase());
         imageLogo.setAnimation(topAnim);
         textLogo.setAnimation(bottomAnim);

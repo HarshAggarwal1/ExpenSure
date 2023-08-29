@@ -1,0 +1,19 @@
+private void moveLogo() { // To move the logo to the right permanently (Just Call this method in onCreate to use)
+    LinearLayout parent = (LinearLayout) logo.getParent();
+
+    ViewTreeObserver vto = parent.getViewTreeObserver();
+    vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+
+            // Calculate the distance to the rightmost point of the parent
+            float parentWidth = (float) parent.getWidth();
+            float logoWidth = (float) logo.getWidth();
+            float translationX = parentWidth - logoWidth;
+            ObjectAnimator animator = ObjectAnimator.ofFloat(logo, "translationX", (translationX) / 2);
+            animator.setDuration(500);
+            animator.start();
+        }
+    });
+}

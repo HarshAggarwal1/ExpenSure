@@ -1,14 +1,21 @@
 package com.accenture.accpenture;
 
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -19,6 +26,12 @@ import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.accenture.accpenture.database.AppData;
 import com.accenture.accpenture.database.Database;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,15 +40,18 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
 
     // Variables
+    private static final int RC_SIGN_IN = 9001;
     private Button btnRegister, btnLogin;
     private TextInputLayout username, password;
     private Database database;
     private Dialog dialog;
+    private ImageView googleSignIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +74,8 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.loginPassword);
         btnRegister = findViewById(R.id.loginPageNewUser);
         btnLogin = findViewById(R.id.loginButton);
+        googleSignIn = findViewById(R.id.loginGoogle);
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,30 +88,9 @@ public class Login extends AppCompatActivity {
                 startActivity(intent, options.toBundle());
             }
         });
-
-
-
     }
 
-//    private void moveLogo() { // To move the logo to the right permanently (Just Call this method in onCreate to use)
-//        LinearLayout parent = (LinearLayout) logo.getParent();
-//
-//        ViewTreeObserver vto = parent.getViewTreeObserver();
-//        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//
-//                // Calculate the distance to the rightmost point of the parent
-//                float parentWidth = (float) parent.getWidth();
-//                float logoWidth = (float) logo.getWidth();
-//                float translationX = parentWidth - logoWidth;
-//                ObjectAnimator animator = ObjectAnimator.ofFloat(logo, "translationX", (translationX) / 2);
-//                animator.setDuration(500);
-//                animator.start();
-//            }
-//        });
-//    }
+
 
     private void handleOverlappingInsets() {
         View view = getWindow().getDecorView();
@@ -243,4 +240,40 @@ public class Login extends AppCompatActivity {
     private void hideProgressBar() {
         dialog.dismiss();
     }
+
+    public void loginRegisterWithGoogle(View view) {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        googleSignInClient.signOut();
+        googleSignInLauncher.launch(signInIntent);
+    }
+
+    ActivityResultLauncher<Intent> googleSignInLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult o) {
+                    if (o.getResultCode() == Activity.RESULT_OK) {
+                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(o.getData());
+                        try {
+                            GoogleSignInAccount account = task.getResult(ApiException.class);
+                            String email = account.getEmail();
+                            String fName = account.getGivenName();
+                            String lName = account.getFamilyName();
+                            // get photo url
+                            Uri dp_uri = account.getPhotoUrl();
+                            System.out.println("Email: " + email);
+                            System.out.println("Name: " + fName + " " + lName);
+                            System.out.println("Uri: " + dp_uri);
+                        }
+                        catch (ApiException e) {
+                            e.printStackTrace();
+                            Toast.makeText(Login.this, "Error Occured in GoogleSignIn!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            });
 }
