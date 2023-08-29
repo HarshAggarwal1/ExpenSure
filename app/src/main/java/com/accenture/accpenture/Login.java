@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Pair;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -32,7 +36,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,6 +61,9 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        config();
+
         super.onCreate(savedInstanceState);
 
         // 1. Layout in Full-Screen
@@ -89,8 +98,6 @@ public class Login extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void handleOverlappingInsets() {
         View view = getWindow().getDecorView();
@@ -242,13 +249,15 @@ public class Login extends AppCompatActivity {
     }
 
     public void loginRegisterWithGoogle(View view) {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-        Intent signInIntent = googleSignInClient.getSignInIntent();
-        googleSignInClient.signOut();
-        googleSignInLauncher.launch(signInIntent);
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+//        Intent signInIntent = googleSignInClient.getSignInIntent();
+//        googleSignInClient.signOut();
+//        googleSignInLauncher.launch(signInIntent);
+        startMaterialContainerTransform();
+
     }
 
     ActivityResultLauncher<Intent> googleSignInLauncher = registerForActivityResult(
@@ -268,12 +277,25 @@ public class Login extends AppCompatActivity {
                             System.out.println("Email: " + email);
                             System.out.println("Name: " + fName + " " + lName);
                             System.out.println("Uri: " + dp_uri);
+                            new Handler(Looper.getMainLooper()).postDelayed(() -> startMaterialContainerTransform(), 500);
                         }
                         catch (ApiException e) {
                             e.printStackTrace();
-                            Toast.makeText(Login.this, "Error Occured in GoogleSignIn!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Error Occured in GoogleSignInActivity!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
             });
+
+    private void startMaterialContainerTransform() {
+        Intent intent = new Intent(Login.this, GoogleSignInActivity.class);
+        Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this, googleSignIn, "googleSignIn").toBundle();
+        startActivity(intent, bundle);
+    }
+
+    private void config() {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        setExitSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+        getWindow().setSharedElementsUseOverlay(false);
+    }
 }

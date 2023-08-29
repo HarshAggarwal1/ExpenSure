@@ -167,6 +167,7 @@
             android:elevation="1dp"
             android:focusable="true"
             android:clickable="true"
+            android:transitionName="googleSignIn"
             android:src="@drawable/google_sign" />
         <ImageView
             android:id="@+id/loginAccenture"
