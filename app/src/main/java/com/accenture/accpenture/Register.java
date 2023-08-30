@@ -20,6 +20,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -28,10 +29,16 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
+import com.accenture.accpenture.database.AppData;
+import com.accenture.accpenture.database.Database;
 import com.accenture.accpenture.database.UserHelperClassFirebase;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -47,26 +54,15 @@ public class Register extends AppCompatActivity {
     private ImageView profileDP;
     private static boolean isImageSelected = false;
 
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
-    StorageReference storageReference;
-    UserHelperClassFirebase helperClass;
+    private FirebaseDatabase rootNode;
+    private DatabaseReference reference;
+    private StorageReference storageReference;
+    private UserHelperClassFirebase helperClass;
     private static Uri imageUri, dpUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 1. Layout in Full-Screen
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-
-        // 2 Change colour of System Bars
-        WindowInsetsControllerCompat windowInsetsController = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
-        windowInsetsController.setAppearanceLightNavigationBars(true);
-        windowInsetsController.setAppearanceLightStatusBars(true);
-
-        // 3. Handle Overlapping Insets
-        handleOverlappingInsets();
 
         setContentView(R.layout.activity_register);
 
@@ -118,15 +114,6 @@ public class Register extends AppCompatActivity {
 
         showProgressBar();
 
-        // Get all the values
-        String _username = Objects.requireNonNull(username.getEditText()).getText().toString();
-        String _password = Objects.requireNonNull(password.getEditText()).getText().toString();
-        String _email = Objects.requireNonNull(email.getEditText()).getText().toString();
-        String _fName = Objects.requireNonNull(fName.getEditText()).getText().toString();
-        String _lName = Objects.requireNonNull(lName.getEditText()).getText().toString();
-        String _phone = Objects.requireNonNull(phone.getEditText()).getText().toString();
-
-
         // Check if all fields are valid
         boolean[] valid = {validateUsername(), validatePassword(), validateEmail(), validateConfirmPassword(), validateFName(), validateLName(), validateMobile()};
         for (boolean b : valid) {
@@ -136,13 +123,21 @@ public class Register extends AppCompatActivity {
             }
         }
 
+        // Get all the values
+        String _username = Objects.requireNonNull(username.getEditText()).getText().toString();
+        String _password = Objects.requireNonNull(password.getEditText()).getText().toString();
+        String _email = Objects.requireNonNull(email.getEditText()).getText().toString();
+        String _fName = Objects.requireNonNull(fName.getEditText()).getText().toString();
+        String _lName = Objects.requireNonNull(lName.getEditText()).getText().toString();
+        String _phone = Objects.requireNonNull(phone.getEditText()).getText().toString();
+
         // Register Logic Below ...............
         rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("users");
 
         // Capitalize first letter of first name and last name and remove trailing spaces
-        _fName = _fName.substring(0, 1).toUpperCase() + _fName.substring(1).toLowerCase().trim();
-        _lName = _lName.substring(0, 1).toUpperCase() + _lName.substring(1).toLowerCase().trim();
+        _fName = _fName.substring(0, 1).toUpperCase().trim() + _fName.substring(1).toLowerCase().trim();
+        _lName = _lName.substring(0, 1).toUpperCase().trim() + _lName.substring(1).toLowerCase().trim();
 
         // Create UserHelperClassFirebase object
         helperClass = new UserHelperClassFirebase(_username, _password, _email, _fName, _lName, _phone);
@@ -155,7 +150,6 @@ public class Register extends AppCompatActivity {
                 username.setError("Username already exists");
             }
         });
-
     }
 
     private void uploadImage(String _username) {
@@ -314,7 +308,7 @@ public class Register extends AppCompatActivity {
         dialog.dismiss();
     }
 
-    public String getFilePathFromURI(Uri uri) {
+    private String getFilePathFromURI(Uri uri) {
         String path = null;
         String[] projection = { MediaStore.Images.Media.DATA };
         Cursor cursor = getContentResolver().query(uri, projection, null, null, null);

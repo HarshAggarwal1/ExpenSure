@@ -63,20 +63,12 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        database = Database.getInstance(getApplicationContext());
+        database.appDao().deleteAll();
+
         config();
 
         super.onCreate(savedInstanceState);
-
-        // 1. Layout in Full-Screen
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-
-        // 2 Change colour of System Bars
-        WindowInsetsControllerCompat windowInsetsController = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
-        windowInsetsController.setAppearanceLightNavigationBars(true);
-        windowInsetsController.setAppearanceLightStatusBars(true);
-
-        // 3. Handle Overlapping Insets
-        handleOverlappingInsets();
 
         setContentView(R.layout.activity_login);
 
@@ -157,7 +149,6 @@ public class Login extends AppCompatActivity {
                         String email = snapshot.child(_username).child("email").getValue(String.class);
                         String username = snapshot.child(_username).child("username").getValue(String.class);
 
-                        database = Database.getInstance(getApplicationContext());
                         database.appDao().insert(new AppData(email, passwordFromDB, fName, lName, phone, username));
 
 //                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
