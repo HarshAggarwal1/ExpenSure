@@ -154,21 +154,23 @@
         android:gravity="center"
         android:padding="20dp"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/loginGoogle"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/signinwith_background"
-            android:padding="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_gravity="center"
-            android:onClick="loginRegisterWithGoogle"
-            android:scaleType="fitXY"
-            android:elevation="1dp"
-            android:focusable="true"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/signinwith_background"
             android:clickable="true"
-            android:transitionName="googleSignIn"
-            android:src="@drawable/google_sign" />
+            android:elevation="1dp"
+            android:foregroundGravity="center"
+            android:focusable="true"
+            android:onClick="loginRegisterWithGoogle"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/google_sign"
+            android:transitionName="googleSignIn" />
         <ImageView
             android:id="@+id/loginAccenture"
             android:layout_width="50dp"
