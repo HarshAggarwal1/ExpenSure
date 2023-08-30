@@ -280,20 +280,23 @@ public class Login extends AppCompatActivity {
                             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    startMaterialContainerTransform();
+                                    startMaterialContainerTransform(email, fName, lName);
                                 }
                             }, 200);
                         }
                         catch (ApiException e) {
                             e.printStackTrace();
-                            Toast.makeText(Login.this, "Error Occured in GoogleSignInActivity!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Unable to login", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
             });
 
-    private void startMaterialContainerTransform() {
+    private void startMaterialContainerTransform(String _e, String _fN, String _lN) {
         Intent intent = new Intent(Login.this, GoogleSignInActivity.class);
+        intent.putExtra("email", _e);
+        intent.putExtra("fName", _fN);
+        intent.putExtra("lName", _lN);
         Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this, googleSignIn, "googleSignIn").toBundle();
         startActivity(intent, bundle);
     }

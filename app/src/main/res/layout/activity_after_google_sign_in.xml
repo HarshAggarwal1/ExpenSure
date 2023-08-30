@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
     tools:context=".GoogleSignInActivity">
     <LinearLayout
@@ -14,6 +13,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        android:paddingBottom="80dp"
         android:layout_marginBottom="20dp">
 
         <LinearLayout
@@ -30,7 +30,8 @@
                 android:background="@drawable/signinwith_background"
                 android:padding="10dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/google_sign" />
+                android:src="@drawable/google_sign"
+                android:contentDescription="@string/company_logo" />
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -39,7 +40,8 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/signinwith_background"
                 android:padding="10dp"
-                android:src="@drawable/accenture_splash" />
+                android:src="@drawable/accenture_splash"
+                android:contentDescription="@string/company_logo" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,9 +70,39 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="30dp"
             android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:clickable="false"
+                android:focusable="false"
+                app:cardCornerRadius="50dp"
+                android:id="@+id/furtherGoogleProfileDP"
+                app:cardElevation="10dp"
+                app:cardBackgroundColor="#FF0A2F42">
+                <ImageView
+                    android:id="@+id/furtherGooglePickProfileDP"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:src="@drawable/profile_dp"
+                    android:scaleType="fitXY"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/profile_dp_description" />
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_profile_dp"
+                android:layout_marginBottom="20dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/furtherGoogleUsername"
@@ -116,7 +148,7 @@
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/furtherGooglePasswordPhone"
+                android:id="@+id/furtherGooglePhone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -144,7 +176,6 @@
                 android:textAllCaps="false"
                 android:textSize="20sp"
                 app:rippleColor="@color/purple_200" />
-            />
 
             <Button
                 style="@style/Widget.Material3.Button.ElevatedButton"
@@ -167,4 +198,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

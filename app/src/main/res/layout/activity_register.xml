@@ -24,7 +24,8 @@
             android:scaleType="fitXY"
             android:transitionName="logo_image"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/accenture_splash" />
+            android:src="@drawable/accenture_splash"
+            android:contentDescription="@string/company_logo" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,14 +72,15 @@
             android:src="@drawable/profile_dp"
             android:scaleType="fitXY"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:contentDescription="@string/profile_dp_description" />
         </com.google.android.material.card.MaterialCardView>
         <!--            android:padding="20dp"-->
 <!--            android:background="@drawable/register_page_dp_circle"-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Profile Picture"
+            android:text="@string/select_profile_dp"
             android:layout_gravity="center"
             android:layout_marginTop="5dp" />
 
@@ -91,7 +93,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/registerFirstName"
                     android:layout_width="match_parent"

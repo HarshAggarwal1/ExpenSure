@@ -18,4 +18,7 @@
     <string name="continueText">Continue</string>
     <string name="furtherSteps">further steps</string>
     <string name="cancel">Cancel</string>
+    <string name="select_profile_dp">Select Profile Picture</string>
+    <string name="profile_dp_description">Select Profile Picture</string>
+    <string name="company_logo">logo</string>
 </resources>
