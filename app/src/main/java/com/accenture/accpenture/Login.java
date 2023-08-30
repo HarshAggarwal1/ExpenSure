@@ -280,8 +280,6 @@ public class Login extends AppCompatActivity {
                             new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    googleSignIn.setBackgroundResource(android.R.color.transparent);
-                                    googleSignIn.setImageResource(android.R.color.transparent);
                                     startMaterialContainerTransform();
                                 }
                             }, 200);
@@ -309,7 +307,5 @@ public class Login extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        googleSignIn.setBackgroundResource(R.drawable.signinwith_background);
-        googleSignIn.setImageResource(R.drawable.google_sign);
     }
 }
