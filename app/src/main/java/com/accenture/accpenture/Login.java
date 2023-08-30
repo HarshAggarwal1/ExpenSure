@@ -92,22 +92,6 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void handleOverlappingInsets() {
-        View view = getWindow().getDecorView();
-        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            // Apply the insets as a margin to the view. Here the system is setting
-            // only the bottom, left, and right dimensions, but apply whichever insets are
-            // appropriate to your layout. You can also update the view padding
-            // if that's more appropriate.
-            v.setPadding(insets.left, v.getPaddingTop(), insets.right, v.getPaddingBottom());
-
-            // Return CONSUMED if you don't want want the window insets to keep being
-            // passed down to descendant views.
-            return WindowInsetsCompat.CONSUMED;
-        });
-    }
-
     @Override
     public void onBackPressed() {
         finishAffinity();
@@ -150,16 +134,15 @@ public class Login extends AppCompatActivity {
                         String username = snapshot.child(_username).child("username").getValue(String.class);
 
                         database.appDao().insert(new AppData(email, passwordFromDB, fName, lName, phone, username));
+                        hideProgressBar();
 
-//                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
 //                        intent.putExtra("name", name);
 //                        intent.putExtra("username", username);
 //                        intent.putExtra("email", email);
 //                        intent.putExtra("phone", phone);
 //                        intent.putExtra("password", passwordFromDB);
-//                        startActivity(intent);
-
-                        hideProgressBar();
+                        startActivity(intent);
                         Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
                     }
