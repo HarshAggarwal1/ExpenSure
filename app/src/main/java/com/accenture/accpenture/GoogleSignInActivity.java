@@ -25,7 +25,7 @@ public class GoogleSignInActivity extends AppCompatActivity {
 
         MaterialContainerTransform transform= new MaterialContainerTransform();
         transform.addTarget(android.R.id.content);
-        transform.setDuration(550);
+        transform.setDuration(300);
         getWindow().setSharedElementEnterTransition(transform);
         getWindow().setSharedElementExitTransition(transform);
     }
