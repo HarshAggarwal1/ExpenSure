@@ -20,9 +20,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:id="@+id/topAppBar"
-                app:title="expensure"
+                app:title="@string/app_name"
                 app:menu="@menu/top_app_bar_menu"
                 android:background="@color/greyish_white"
+                android:outlineAmbientShadowColor="@color/gray"
+                android:outlineSpotShadowColor="@color/gray"
                 app:navigationIcon="@drawable/top_bar_icon_24dp" />
         </com.google.android.material.appbar.AppBarLayout>
 

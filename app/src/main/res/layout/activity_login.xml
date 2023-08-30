@@ -62,12 +62,14 @@
             android:layout_marginBottom="10dp"
             app:counterEnabled="true"
             app:counterMaxLength="15"
+            app:endIconMode="clear_text"
             android:textColorHint="@color/purple_500"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:hint="@string/textUsername">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
