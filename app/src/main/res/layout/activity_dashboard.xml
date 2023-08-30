@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff0f5f9"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Dashboard">
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,13 +15,38 @@
                 android:layout_height="?attr/actionBarSize"
                 android:id="@+id/topAppBar"
                 app:title="@string/app_name"
-                app:menu="@menu/top_app_bar_menu"
                 android:background="@color/greyish_white"
                 android:outlineAmbientShadowColor="@color/gray"
                 android:outlineSpotShadowColor="@color/gray"
                 app:navigationIcon="@drawable/top_bar_icon_24dp" />
         </com.google.android.material.appbar.AppBarLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/eFAB_newExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:pressedTranslationZ="2dp"
+        android:layout_margin="16dp"
+        app:rippleColor="@color/purple_200"
+        android:backgroundTint="@color/greyish_white"
+        app:icon="@drawable/ic_plus_24dp"
+        android:elevation="10dp"
+        android:contentDescription="@string/extendedFABNewExpense"
+        android:text="@string/extendedFABNewExpenseText"
+        android:layout_gravity="bottom|start"
+        />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/eFAB_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:pressedTranslationZ="2dp"
+        android:layout_margin="16dp"
+        app:rippleColor="@color/purple_200"
+        android:backgroundTint="@color/greyish_white"
+        android:src="@drawable/user_profile_vector"
+        android:elevation="10dp"
+        android:contentDescription="@string/extendedFABUser"
+        android:layout_gravity="bottom|end"
+        />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

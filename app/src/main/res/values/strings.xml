@@ -22,4 +22,10 @@
     <string name="profile_dp_description">Select Profile Picture</string>
     <string name="company_logo">logo</string>
     <string name="profilePic">Profile</string>
+
+
+<!--    Dashboard Strings-->
+    <string name="extendedFABNewExpense">Add New Expense</string>
+    <string name="extendedFABNewExpenseText">New Expense</string>
+    <string name="extendedFABUser">Open User Profile Page</string>
 </resources>
