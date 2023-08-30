@@ -10,4 +10,9 @@ public class Dashboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
     }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }
