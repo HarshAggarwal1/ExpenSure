@@ -3,53 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff0f5f9"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Dashboard">
-        <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/topAppBar"
+        android:background="@color/grayish_white"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+        <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:liftOnScroll="true">
-            <com.google.android.material.appbar.MaterialToolbar
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:id="@+id/topAppBar"
-                app:title="@string/app_name"
-                android:background="@color/greyish_white"
-                android:outlineAmbientShadowColor="@color/gray"
-                android:outlineSpotShadowColor="@color/gray"
-                app:navigationIcon="@drawable/top_bar_icon_24dp" />
-        </com.google.android.material.appbar.AppBarLayout>
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/app_name"
+            app:navigationIcon="@drawable/top_bar_icon_24dp" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/eFAB_newExpense"
-        android:layout_width="wrap_content"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:pressedTranslationZ="2dp"
-        android:layout_margin="16dp"
-        app:rippleColor="@color/purple_200"
-        android:backgroundTint="@color/greyish_white"
-        app:icon="@drawable/ic_plus_24dp"
-        android:elevation="10dp"
-        android:contentDescription="@string/extendedFABNewExpense"
-        android:text="@string/extendedFABNewExpenseText"
-        android:layout_gravity="bottom|start"
-        />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/eFAB_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:pressedTranslationZ="2dp"
-        app:borderWidth="0dp"
-        app:fabSize="auto"
-        android:layout_margin="16dp"
-        app:hoveredFocusedTranslationZ="5dp"
-        app:rippleColor="@color/purple_200"
-        android:backgroundTint="@color/greyish_white"
-        app:srcCompat="@drawable/user_profile_vector"
-        android:elevation="10dp"
-        android:contentDescription="@string/extendedFABUser"
-        android:layout_gravity="bottom|end"
-        />
+        android:background="@color/grayish_white"
+        android:layout_gravity="bottom"
+        app:compatShadowEnabled="true"
+        app:elevation="6dp"
+        app:itemIconSize="30dp"
+        app:itemRippleColor="@color/purple_200"
+        android:hapticFeedbackEnabled="true"
+        app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+<!--    app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
