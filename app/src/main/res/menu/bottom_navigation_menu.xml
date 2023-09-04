@@ -1,14 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/new_expense_bottom_bar"
-        android:enabled="true"
-        android:icon="@drawable/new_expense_bottom_bar"
-        android:title="New Expense"/>
-    <item
         android:id="@+id/dashboard_bottom_bar"
         android:enabled="true"
         android:icon="@drawable/dashboard_bottom_bar"
         android:title="Dashboard"/>
+    <item
+        android:id="@+id/new_expense_bottom_bar"
+        android:enabled="true"
+        android:icon="@drawable/new_expense_bottom_bar"
+        android:title=""/>
     <item
         android:id="@+id/user_settings_bottom_bar"
         android:enabled="true"

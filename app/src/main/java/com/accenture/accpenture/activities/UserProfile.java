@@ -1,4 +1,4 @@
-package com.accenture.accpenture;
+package com.accenture.accpenture.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

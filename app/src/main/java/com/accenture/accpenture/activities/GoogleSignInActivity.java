@@ -1,16 +1,14 @@
-package com.accenture.accpenture;
+package com.accenture.accpenture.activities;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,66 +16,72 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 
+import com.accenture.accpenture.R;
 import com.accenture.accpenture.database.AppData;
 import com.accenture.accpenture.database.Database;
 import com.accenture.accpenture.database.UserHelperClassFirebase;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.android.material.transition.platform.MaterialContainerTransform;
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.util.Objects;
 
-public class Register extends AppCompatActivity {
+public class GoogleSignInActivity extends AppCompatActivity {
 
-    // Variables
-    private Button btnLogin, btnRegister;
-    private TextInputLayout username, password, email, confirmPassword, fName, lName, phone;
     private Dialog dialog;
+    private Button cancel, register;
+    private TextInputLayout username, password, confirmPassword, phone;
     private ImageView profileDP;
-    private static boolean isImageSelected = false;
-
+    private String email, fName, lName;
     private FirebaseDatabase rootNode;
     private DatabaseReference reference;
     private StorageReference storageReference;
     private UserHelperClassFirebase helperClass;
     private static Uri imageUri, dpUri;
+    private static boolean isImageSelected = false;
+    private Database database;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        database = Database.getInstance(getApplicationContext());
+        database.appDao().deleteAll();
+
+        config();
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_after_google_sign_in);
 
-        setContentView(R.layout.activity_register);
+        cancel = findViewById(R.id.furtherGoogleCancelButton);
+        register = findViewById(R.id.furtherGoogleRegisterButton);
+        username = findViewById(R.id.furtherGoogleUsername);
+        password = findViewById(R.id.furtherGooglePassword);
+        confirmPassword = findViewById(R.id.furtherGooglePasswordConfirm);
+        phone = findViewById(R.id.furtherGooglePhone);
+        profileDP = findViewById(R.id.furtherGooglePickProfileDP);
 
-        btnLogin = findViewById(R.id.backToLoginButton);
-        btnRegister = findViewById(R.id.registerButton);
-        username = findViewById(R.id.registerUsername);
-        password = findViewById(R.id.registerPassword);
-        email = findViewById(R.id.registerEmail);
-        confirmPassword = findViewById(R.id.checkRegisterPassword);
-        fName = findViewById(R.id.registerFirstName);
-        lName = findViewById(R.id.registerLastName);
-        phone = findViewById(R.id.registerContact);
-        profileDP = findViewById(R.id.pickProfileDP);
+        email = getIntent().getStringExtra("email");
+        fName = getIntent().getStringExtra("fName");
+        lName = getIntent().getStringExtra("lName");
 
-        // Pick Profile Picture
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerUser();
+            }
+        });
         profileDP.setOnClickListener(v -> {
             // only images
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -85,37 +89,11 @@ public class Register extends AppCompatActivity {
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             pickMedia.launch(intent);
         });
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
     }
 
-    private void handleOverlappingInsets() {
-        View view = getWindow().getDecorView();
-        ViewCompat.setOnApplyWindowInsetsListener(view, (v, windowInsets) -> {
-            Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-            // Apply the insets as a margin to the view. Here the system is setting
-            // only the bottom, left, and right dimensions, but apply whichever insets are
-            // appropriate to your layout. You can also update the view padding
-            // if that's more appropriate.
-            v.setPadding(insets.left, v.getPaddingTop(), insets.right, v.getPaddingBottom());
-
-            // Return CONSUMED if you don't want want the window insets to keep being
-            // passed down to descendant views.
-            return WindowInsetsCompat.CONSUMED;
-        });
-    }
-
-    public void registerUser(View v) {
-
+    private void registerUser() {
         showProgressBar();
-
-        // Check if all fields are valid
-        boolean[] valid = {validateUsername(), validatePassword(), validateEmail(), validateConfirmPassword(), validateFName(), validateLName(), validateMobile()};
+        boolean[] valid = {validateUsername(), validatePassword(), validateConfirmPassword(), validateMobile()};
         for (boolean b : valid) {
             if (!b) {
                 hideProgressBar();
@@ -123,12 +101,12 @@ public class Register extends AppCompatActivity {
             }
         }
 
+        // pre-registration
+//        updateViewsBasedOnDataReceived();
+
         // Get all the values
         String _username = Objects.requireNonNull(username.getEditText()).getText().toString();
         String _password = Objects.requireNonNull(password.getEditText()).getText().toString();
-        String _email = Objects.requireNonNull(email.getEditText()).getText().toString();
-        String _fName = Objects.requireNonNull(fName.getEditText()).getText().toString();
-        String _lName = Objects.requireNonNull(lName.getEditText()).getText().toString();
         String _phone = Objects.requireNonNull(phone.getEditText()).getText().toString();
 
         // Register Logic Below ...............
@@ -136,11 +114,11 @@ public class Register extends AppCompatActivity {
         reference = rootNode.getReference("users");
 
         // Capitalize first letter of first name and last name and remove trailing spaces
-        _fName = _fName.substring(0, 1).toUpperCase().trim() + _fName.substring(1).toLowerCase().trim();
-        _lName = _lName.substring(0, 1).toUpperCase().trim() + _lName.substring(1).toLowerCase().trim();
+        fName = fName.substring(0, 1).toUpperCase().trim() + fName.substring(1).toLowerCase().trim();
+        lName = lName.substring(0, 1).toUpperCase().trim() + lName.substring(1).toLowerCase().trim();
 
         // Create UserHelperClassFirebase object
-        helperClass = new UserHelperClassFirebase(_username, _password, _email, _fName, _lName, _phone);
+        helperClass = new UserHelperClassFirebase(_username, _password, email, fName, lName, _phone);
 
         reference.child(_username).setValue(helperClass).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -150,6 +128,11 @@ public class Register extends AppCompatActivity {
                 username.setError("Username already exists");
             }
         });
+
+        // App Database
+        database.appDao().insert(new AppData(email, _password, fName, lName, _phone, _username));
+
+        // Intent work here
     }
 
     private void uploadImage(String _username) {
@@ -166,16 +149,44 @@ public class Register extends AppCompatActivity {
                 reference.child(_username).child("profilePicture").setValue(uri.toString()).addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         hideProgressBar();
-                        Toast.makeText(Register.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GoogleSignInActivity.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }
                     else {
                         hideProgressBar();
-                        Toast.makeText(Register.this, "Failed to Upload the Image.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GoogleSignInActivity.this, "Failed to Upload the Image.", Toast.LENGTH_SHORT).show();
                     }
                 });
             });
         });
+    }
+
+    private void updateViewsBasedOnDataReceived() {
+        return;
+    }
+
+    private void showProgressBar() {
+        dialog = new Dialog(GoogleSignInActivity.this);
+        dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.progress_bar);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+    private void hideProgressBar() {
+        dialog.dismiss();
+    }
+
+    private void config() {
+        getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
+        findViewById(android.R.id.content).setTransitionName("googleSignIn");
+        setEnterSharedElementCallback(new MaterialContainerTransformSharedElementCallback());
+
+        MaterialContainerTransform transform= new MaterialContainerTransform();
+        transform.addTarget(android.R.id.content);
+        transform.setDuration(300);
+        getWindow().setSharedElementEnterTransition(transform);
+        getWindow().setSharedElementExitTransition(transform);
     }
 
     private boolean validateUsername() {
@@ -195,48 +206,6 @@ public class Register extends AppCompatActivity {
         } else {
             username.setError(null);
             username.setErrorEnabled(false);
-            return true;
-        }
-    }
-    private boolean validateFName() {
-        String _fName = Objects.requireNonNull(fName.getEditText()).getText().toString();
-        if (_fName.isEmpty()) {
-            fName.setError("Field cannot be empty");
-            return false;
-        } else if (!_fName.matches("[ a-zA-Z ]+")) {
-            fName.setError("Invalid");
-            return false;
-        } else {
-            fName.setError(null);
-            return true;
-        }
-    }
-    private boolean validateLName() {
-        String _lName = Objects.requireNonNull(lName.getEditText()).getText().toString();
-        if (_lName.isEmpty()) {
-            lName.setError("Field cannot be empty");
-            return false;
-        } else if (!_lName.matches("[ a-zA-Z ]+")) {
-            lName.setError("Invalid");
-            return false;
-        } else {
-            lName.setError(null);
-            return true;
-        }
-    }
-    private boolean validateEmail() {
-        String _email = Objects.requireNonNull(email.getEditText()).getText().toString();
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-        if (_email.isEmpty()) {
-            email.setError("Field cannot be empty");
-            return false;
-        }
-        else if (!_email.matches(emailPattern)) {
-            email.setError("Invalid email address");
-            return false;
-        }
-        else {
-            email.setError(null);
             return true;
         }
     }
@@ -296,18 +265,6 @@ public class Register extends AppCompatActivity {
         }
     }
 
-    private void showProgressBar() {
-        dialog = new Dialog(Register.this);
-        dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.progress_bar);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
-        dialog.show();
-    }
-    private void hideProgressBar() {
-        dialog.dismiss();
-    }
-
     private String getFilePathFromURI(Uri uri) {
         String path = null;
         String[] projection = { MediaStore.Images.Media.DATA };
@@ -339,19 +296,10 @@ public class Register extends AppCompatActivity {
                         }
                     }
                     else {
-                        Toast.makeText(Register.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GoogleSignInActivity.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
-//        pickMedia.launch(new PickVisualMediaRequest.Builder()
-//                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-//                .build());
-//
-//        String mimeType = "image/*";
-//        pickMedia.launch(new PickVisualMediaRequest.Builder()
-//                .setMediaType(new ActivityResultContracts.PickVisualMedia.SingleMimeType(mimeType))
-//                .build());
 
     @Override
     public void onBackPressed() {
