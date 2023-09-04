@@ -234,7 +234,7 @@
                 app:strokeWidth="2dp"
                 android:textSize="15sp"
                 app:elevation="5dp"
-                android:textColor="@color/black"
+                android:textColor="@color/purple_500"
                 android:textAllCaps="false"
                 android:fontFamily="sans-serif" />
 
