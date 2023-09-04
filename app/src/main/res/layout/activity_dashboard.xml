@@ -19,6 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="@string/app_name"
+                app:layout_scrollFlags="enterAlways|scroll|snap"
                 app:navigationIcon="@drawable/top_bar_icon_24dp" />
         </com.google.android.material.appbar.AppBarLayout>
         <androidx.fragment.app.FragmentContainerView
@@ -27,8 +28,6 @@
             android:id="@+id/dashboard_fragment_container_view"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <com.google.android.material.bottomappbar.BottomAppBar
