@@ -5,17 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>{
-    private ArrayList<FragmentDataModel> dataHolder;
-    public ExpenseAdapter(ArrayList<FragmentDataModel> dataHolder) {
+    private ArrayList<ExpenseFragmentDataModel> dataHolder;
+    public ExpenseAdapter(ArrayList<ExpenseFragmentDataModel> dataHolder) {
         this.dataHolder = dataHolder;
     }
 
@@ -28,7 +26,10 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
     @Override
     public void onBindViewHolder(@NonNull ExpenseAdapter.ExpenseViewHolder holder, int position) {
-        holder.textView.setText(dataHolder.get(position).text);
+        holder.commodityName.setText(dataHolder.get(position).commodityName);
+        holder.price.setText(dataHolder.get(position).commodityPrice);
+        holder.commodityQuantity.setText(dataHolder.get(position).commodityQuantity);
+        holder.category.setText(dataHolder.get(position).category);
         holder.deleteCategory.setOnClickListener(v -> {
             dataHolder.remove(holder.getAdapterPosition());
             notifyItemRemoved(holder.getAdapterPosition());
@@ -42,11 +43,17 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
 
     class ExpenseViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textView;
+        TextView commodityName;
+        TextView price;
+        TextView commodityQuantity;
+        TextView category;
         ImageButton deleteCategory;
         public ExpenseViewHolder(@NonNull View view) {
             super(view);
-            textView = view.findViewById(R.id.editTextCategory);
+            commodityName = view.findViewById(R.id.textViewCommodityNameCard);
+            price = view.findViewById(R.id.textViewPricePerPieceCard);
+            commodityQuantity = view.findViewById(R.id.textViewQuantityCard);
+            category = view.findViewById(R.id.textViewCategoryCard);
             deleteCategory = view.findViewById(R.id.imageButtonCategoryDelete);
         }
     }

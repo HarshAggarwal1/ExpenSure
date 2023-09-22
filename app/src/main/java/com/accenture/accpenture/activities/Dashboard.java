@@ -1,5 +1,6 @@
 package com.accenture.accpenture.activities;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -16,8 +17,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Dashboard extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
-    private BottomSheetDialog bottomSheetDialog;
-    private FrameLayout bottomSheet;
     private FloatingActionButton addExpense;
     private String activeFrag = "dashboard";
     @Override

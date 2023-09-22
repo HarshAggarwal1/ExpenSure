@@ -30,4 +30,20 @@
     <string name="extendedFABUser">Open User Profile Page</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Add Expense Dialog Strings-->
+    <string-array name="category">
+        <item>Select Category...</item>
+        <item>Food</item>
+        <item>Travel</item>
+        <item>Shopping</item>
+        <item>Entertainment</item>
+        <item>Health</item>
+        <item>Education</item>
+        <item>Salary</item>
+        <item>Appliances</item>
+        <item>Grocery</item>
+        <item>Crockery</item>
+        <item>Other</item>
+    </string-array>
 </resources>
