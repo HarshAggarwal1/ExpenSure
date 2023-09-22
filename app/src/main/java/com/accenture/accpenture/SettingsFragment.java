@@ -1,5 +1,7 @@
 package com.accenture.accpenture;
 
+import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.accenture.accpenture.activities.Login;
+import com.google.android.material.card.MaterialCardView;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +32,10 @@ public class SettingsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    MaterialCardView logoutCardView;
+    TextView userFullName;
+    ImageView userImage;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -59,6 +72,18 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(
+                R.layout.fragment_settings, container, false);
+        logoutCardView = view.findViewById(R.id.logoutUserProfile);
+        userFullName = view.findViewById(R.id.userFullNameUserProfile);
+        userImage = view.findViewById(R.id.userProfileImageUserProfile);
+        
+        logoutCardView.setOnClickListener(v -> {
+            // Transition to Login activity with animation
+            Intent intent = new Intent(getActivity(), Login.class);
+            startActivity(intent);
+        });
+
+        return view;
     }
 }

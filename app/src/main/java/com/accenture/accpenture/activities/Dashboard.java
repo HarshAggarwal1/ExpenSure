@@ -9,16 +9,18 @@ import androidx.core.view.WindowCompat;
 
 import com.accenture.accpenture.DashboardFragment;
 import com.accenture.accpenture.R;
+import com.accenture.accpenture.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Dashboard extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
-    BottomSheetDialog bottomSheetDialog;
-    FrameLayout bottomSheet;
-    FloatingActionButton addExpense;
+    private BottomNavigationView bottomNavigationView;
+    private BottomSheetDialog bottomSheetDialog;
+    private FrameLayout bottomSheet;
+    private FloatingActionButton addExpense;
+    private String activeFrag = "dashboard";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         config();
@@ -41,6 +43,28 @@ public class Dashboard extends AppCompatActivity {
             // Transition to AddExpense activity with animation
             Intent intent = new Intent(Dashboard.this, AddExpense.class);
             startActivity(intent);
+        });
+
+        // show dashboard fragment on bottom navigation item click
+
+        bottomNavigationView.setOnItemSelectedListener(v -> {
+            if (v.getItemId() == R.id.dashboard_bottom_bar) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.dashboard_fragment_container_view, new DashboardFragment())
+                        .commit();
+                activeFrag = "dashboard";
+                return true;
+            }
+            else if (v.getItemId() == R.id.user_settings_bottom_bar) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.dashboard_fragment_container_view, new SettingsFragment())
+                        .commit();
+                activeFrag = "settings";
+                return true;
+            }
+            return false;
         });
 
     }

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>{
     private ArrayList<FragmentDataModel> dataHolder;
-    private int ii = 0;
     public ExpenseAdapter(ArrayList<FragmentDataModel> dataHolder) {
         this.dataHolder = dataHolder;
     }
