@@ -27,9 +27,12 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
     @Override
     public void onBindViewHolder(@NonNull ExpenseAdapter.ExpenseViewHolder holder, int position) {
         holder.commodityName.setText(dataHolder.get(position).commodityName);
-        holder.price.setText(dataHolder.get(position).commodityPrice);
-        holder.commodityQuantity.setText(dataHolder.get(position).commodityQuantity);
-        holder.category.setText(dataHolder.get(position).category);
+        String price = "Total Price: " + dataHolder.get(position).commodityPrice;
+        holder.price.setText(price);
+        String quantity = "Quantity: " + dataHolder.get(position).commodityQuantity;
+        holder.commodityQuantity.setText(quantity);
+        String category = "Category: " + dataHolder.get(position).category;
+        holder.category.setText(category);
         holder.deleteCategory.setOnClickListener(v -> {
             dataHolder.remove(holder.getAdapterPosition());
             notifyItemRemoved(holder.getAdapterPosition());
