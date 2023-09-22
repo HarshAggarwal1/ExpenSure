@@ -30,17 +30,6 @@ public class Dashboard extends AppCompatActivity {
                 .beginTransaction()
                 .replace(R.id.dashboard_fragment_container_view, new DashboardFragment())
                 .commit();
-
-        bottomSheet = findViewById(R.id.bottom_sheet);
-
-        // applying peek height of bottom sheet
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-        bottomSheetBehavior.setPeekHeight(400);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
-
-
-
     }
 
     private void config() {
@@ -52,3 +41,10 @@ public class Dashboard extends AppCompatActivity {
         finishAffinity();
     }
 }
+
+//        bottomSheet = findViewById(R.id.bottom_sheet);
+//
+//        // applying peek height of bottom sheet
+//        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+//        bottomSheetBehavior.setPeekHeight(400);
+//        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);

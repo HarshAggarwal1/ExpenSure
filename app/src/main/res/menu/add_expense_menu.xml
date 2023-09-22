@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/expense_save"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/save_button_24dp"
+        android:title="Save"/>
+    <item
+        android:id="@+id/expense_close"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/close_button_24dp"
+        android:title="Close"/>
+    <item
+        android:id="@+id/expense_add_category"
+        android:enabled="true"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/add_button_purple"
+        android:title="Add Category"/>
+</menu>

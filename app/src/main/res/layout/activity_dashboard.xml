@@ -19,6 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="@string/app_name"
+                app:titleTextColor="@color/purple_500"
                 app:layout_scrollFlags="enterAlways|scroll|snap"
                 app:navigationIcon="@drawable/top_bar_icon_24dp" />
         </com.google.android.material.appbar.AppBarLayout>
@@ -68,43 +69,6 @@
         android:tint="@color/grayish_white"
         android:id="@+id/fab_dashboard" />
 
-<!--    <FrameLayout-->
-<!--        android:id="@+id/bottom_sheet"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:elevation="3dp"-->
-<!--        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"-->
-<!--        android:background="@drawable/rounded_bottom_sheet">-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical">-->
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="50dp"-->
-<!--                android:gravity="center"-->
-<!--                android:background="#FFF9F5F6">-->
-<!--                <ImageView-->
-<!--                    android:id="@+id/expand_compress_bottom_sheet"-->
-<!--                    android:clickable="true"-->
-<!--                    android:focusable="true"-->
-<!--                    android:layout_width="48dp"-->
-<!--                    android:layout_height="48dp"-->
-<!--                    android:scaleType="fitXY"-->
-<!--                    android:src="@drawable/expand_bottom_sheet" />-->
-<!--            </LinearLayout>-->
-
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textSize="40sp"-->
-<!--                android:gravity="center"-->
-<!--                android:text="HELLO!" />-->
-<!--        </LinearLayout>-->
-<!--    </FrameLayout>-->
-
-
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 <!--    app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
@@ -121,3 +85,38 @@
 <!--android:hapticFeedbackEnabled="true"-->
 <!--app:menu="@menu/bottom_navigation_menu" />-->
 <!--    </com.google.android.material.bottomappbar.BottomAppBar>-->
+
+<!--<FrameLayout-->
+<!--android:id="@+id/bottom_sheet"-->
+<!--android:layout_width="match_parent"-->
+<!--android:layout_height="match_parent"-->
+<!--android:elevation="3dp"-->
+<!--app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"-->
+<!--android:background="@drawable/rounded_bottom_sheet">-->
+<!--<LinearLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:orientation="vertical">-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:gravity="center"-->
+<!--        android:background="#FFF9F5F6">-->
+<!--        <ImageView-->
+<!--            android:id="@+id/expand_compress_bottom_sheet"-->
+<!--            android:clickable="true"-->
+<!--            android:focusable="true"-->
+<!--            android:layout_width="48dp"-->
+<!--            android:layout_height="48dp"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/expand_bottom_sheet" />-->
+<!--    </LinearLayout>-->
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="40sp"-->
+<!--        android:gravity="center"-->
+<!--        android:text="HELLO!" />-->
+<!--</LinearLayout>-->
+<!--</FrameLayout>-->
