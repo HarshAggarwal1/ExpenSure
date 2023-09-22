@@ -1,7 +1,6 @@
-package com.accenture.accpenture;
+package com.accenture.accpenture.fragments;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,10 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.accenture.accpenture.R;
 import com.accenture.accpenture.activities.Login;
 import com.google.android.material.card.MaterialCardView;
-
-import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,7 +75,7 @@ public class SettingsFragment extends Fragment {
         logoutCardView = view.findViewById(R.id.logoutUserProfile);
         userFullName = view.findViewById(R.id.userFullNameUserProfile);
         userImage = view.findViewById(R.id.userProfileImageUserProfile);
-        
+
         logoutCardView.setOnClickListener(v -> {
             // Transition to Login activity with animation
             Intent intent = new Intent(getActivity(), Login.class);

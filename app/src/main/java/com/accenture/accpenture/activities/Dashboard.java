@@ -1,5 +1,6 @@
 package com.accenture.accpenture.activities;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
@@ -7,11 +8,10 @@ import android.widget.FrameLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 
-import com.accenture.accpenture.DashboardFragment;
+import com.accenture.accpenture.fragments.DashboardFragment;
 import com.accenture.accpenture.R;
-import com.accenture.accpenture.SettingsFragment;
+import com.accenture.accpenture.fragments.SettingsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -42,6 +42,7 @@ public class Dashboard extends AppCompatActivity {
         addExpense.setOnClickListener(v -> {
             // Transition to AddExpense activity with animation
             Intent intent = new Intent(Dashboard.this, AddExpense.class);
+            Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(this, addExpense, "addExpense").toBundle();
             startActivity(intent);
         });
 

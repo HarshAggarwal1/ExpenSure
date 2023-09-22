@@ -1,4 +1,4 @@
-package com.accenture.accpenture;
+package com.accenture.accpenture.fragments;
 
 import android.os.Bundle;
 
@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.accenture.accpenture.FragmentDataModel;
+import com.accenture.accpenture.MyAdapter;
+import com.accenture.accpenture.R;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;

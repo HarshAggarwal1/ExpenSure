@@ -61,12 +61,14 @@
         app:maxImageSize="40dp"
         app:fabSize="normal"
         app:elevation="1dp"
+        android:transitionName="addExpense"
         android:paddingBottom="0dp"
         android:layout_marginBottom="0dp"
         app:rippleColor="@color/purple_200"
-        android:background="@color/grayish_white"
+        android:background="@color/purple_500"
+        android:hapticFeedbackEnabled="true"
         app:borderWidth="0dp"
-        android:tint="@color/grayish_white"
+        android:tint="@color/purple_500"
         android:id="@+id/fab_dashboard" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
