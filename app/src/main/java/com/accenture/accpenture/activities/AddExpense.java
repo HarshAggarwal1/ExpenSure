@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,16 +89,21 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
         spinner.setOnItemSelectedListener(this);
         bottomSheetDialog.setContentView(view);
 
-        TextInputLayout categoryEditText = view.findViewById(R.id.editTextCommodityNameExpense);
+        TextInputLayout commodityEditText = view.findViewById(R.id.editTextCommodityNameExpense);
         TextInputLayout amountEditText = view.findViewById(R.id.editTextPriceExpense);
         TextInputLayout quantityEditText = view.findViewById(R.id.editTextQuantityExpense);
         Button saveButton = view.findViewById(R.id.buttonSaveExpense);
 
         saveButton.setOnClickListener(v -> {
             String selectedCategory = spinner.getSelectedItem().toString();
-            String categoryString = Objects.requireNonNull(categoryEditText.getEditText()).getText().toString();
+            String categoryString = Objects.requireNonNull(commodityEditText.getEditText()).getText().toString();
             String amountString = Objects.requireNonNull(amountEditText.getEditText()).getText().toString();
             String quantityString = Objects.requireNonNull(quantityEditText.getEditText()).getText().toString();
+            if (selectedCategory.equals("Select Category…")) {
+                Toast.makeText(this, "No Category Selected!", Toast.LENGTH_SHORT).show();
+                bottomSheetDialog.dismiss();
+                return;
+            }
             dataHolder.add(new ExpenseFragmentDataModel(categoryString, amountString, quantityString, selectedCategory));
             ExpenseAdapter expenseAdapter = new ExpenseAdapter(dataHolder);
             recyclerView.setAdapter(expenseAdapter);

@@ -33,14 +33,13 @@
 
     <!--    Add Expense Dialog Strings-->
     <string-array name="category">
-        <item>Select Category...</item>
+        <item>Select Category…</item>
         <item>Food</item>
         <item>Travel</item>
         <item>Shopping</item>
         <item>Entertainment</item>
         <item>Health</item>
         <item>Education</item>
-        <item>Salary</item>
         <item>Appliances</item>
         <item>Grocery</item>
         <item>Crockery</item>
