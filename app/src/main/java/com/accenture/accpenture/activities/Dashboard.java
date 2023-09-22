@@ -1,5 +1,6 @@
 package com.accenture.accpenture.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
@@ -11,12 +12,13 @@ import com.accenture.accpenture.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class Dashboard extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
-    BottomSheetBehavior bottomSheetBehavior;
     BottomSheetDialog bottomSheetDialog;
     FrameLayout bottomSheet;
+    FloatingActionButton addExpense;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         config();
@@ -25,11 +27,22 @@ public class Dashboard extends AppCompatActivity {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setBackground(null);
+         // set bottom navigation to first option
+        bottomNavigationView.setSelectedItemId(R.id.dashboard_bottom_bar);
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.dashboard_fragment_container_view, new DashboardFragment())
                 .commit();
+
+        addExpense = findViewById(R.id.fab_dashboard);
+
+        addExpense.setOnClickListener(v -> {
+            // Transition to AddExpense activity with animation
+            Intent intent = new Intent(Dashboard.this, AddExpense.class);
+            startActivity(intent);
+        });
+
     }
 
     private void config() {

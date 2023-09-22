@@ -29,9 +29,9 @@ public class DashboardFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    RecyclerView recyclerView1, recyclerView2, recyclerView3, recyclerView4;
-    ArrayList<FragmentDataModel> dataHolder;
-    MaterialCardView cardView;
+    private RecyclerView recyclerView1, recyclerView2, recyclerView3, recyclerView4;
+    private ArrayList<FragmentDataModel> dataHolder;
+    private MaterialCardView cardView;
 
     public DashboardFragment() {
         // Required empty public constructor

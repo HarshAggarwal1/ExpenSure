@@ -12,7 +12,8 @@
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:id="@+id/topAppBar"
+            android:background="@color/grayish_white"
+            android:id="@+id/topAppBarExpense1"
             app:elevation="6dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -23,23 +24,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="Add Expense"
+                android:id="@+id/topAppBarExpense"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 app:titleTextColor="@color/purple_500"
                 app:menu="@menu/add_expense_menu" />
         </com.google.android.material.appbar.AppBarLayout>
-        <ScrollView
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_behavior="">-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical"-->
+<!--                android:id="@+id/linear_layout_for_category_add_expense">-->
+<!--            </LinearLayout>-->
+<!--        </ScrollView>-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_for_category_add_expense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:id="@+id/linear_layout_for_category_add_expense">
-            </LinearLayout>
-        </ScrollView>
-
+        </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
