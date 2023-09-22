@@ -1,8 +1,10 @@
 package com.accenture.accpenture.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,10 +12,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.accenture.accpenture.R;
 import com.accenture.accpenture.activities.Login;
+import com.accenture.accpenture.database.Database;
+import com.bumptech.glide.Glide;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,9 +45,12 @@ public class SettingsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    MaterialCardView logoutCardView;
-    TextView userFullName;
-    ImageView userImage;
+    private MaterialCardView logoutCardView;
+    private TextView userFullName;
+    private ImageView userImage;
+    private Database database;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -60,6 +77,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -69,12 +87,18 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        database = Database.getInstance(getContext());
+        String fullName = database.appDao().getFirstRow().getFName() + " " + database.appDao().getFirstRow().getLName();
         // Inflate the layout for this fragment
         View view = inflater.inflate(
                 R.layout.fragment_settings, container, false);
         logoutCardView = view.findViewById(R.id.logoutUserProfile);
         userFullName = view.findViewById(R.id.userFullNameUserProfile);
+        userFullName.setText(fullName);
         userImage = view.findViewById(R.id.userProfileImageUserProfile);
+
+        // set user image
+        setUserImage();
 
         logoutCardView.setOnClickListener(v -> {
             // Transition to Login activity with animation
@@ -83,5 +107,29 @@ public class SettingsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void setUserImage() {
+        // Get image from firebase
+        String userName = database.appDao().getFirstRow().getUsername();
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
+        Query checkUser = databaseReference.orderByChild("username").equalTo(userName);
+
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Uri imageUri = Uri.parse(snapshot.child(userName).child("profilePicture").getValue(String.class));
+                    Glide.with(requireContext()).load(imageUri).into(userImage);
+                }
+                else {
+                    Toast.makeText(getContext(), "No such user exists", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error in loading Profile Picture", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

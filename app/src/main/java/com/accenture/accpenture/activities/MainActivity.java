@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.accenture.accpenture.R;
+import com.accenture.accpenture.database.Database;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,10 +29,12 @@ public class MainActivity extends AppCompatActivity {
     private Animation topAnim, bottomAnim;
     private ImageView imageLogo;
     private TextView textLogo;
+    private Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        database = Database.getInstance(getApplicationContext());
 
         // 1. Layout in Full-Screen
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
@@ -63,12 +66,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 // Call next activity
-                Intent intent = new Intent(MainActivity.this, Login.class);
-                Pair[] pairs = new Pair[2];
-                pairs[0] = new Pair<View, String>(imageLogo, "logo_image");
-                pairs[1] = new Pair<View, String>(textLogo, "logo_string");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
-                startActivity(intent, options.toBundle());
+
+                if (database.appDao().count() > 0) {
+                    Intent intent = new Intent(MainActivity.this, Dashboard.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(MainActivity.this, Login.class);
+                    Pair[] pairs = new Pair[2];
+                    pairs[0] = new Pair<View, String>(imageLogo, "logo_image");
+                    pairs[1] = new Pair<View, String>(textLogo, "logo_string");
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
+                    startActivity(intent, options.toBundle());
+                }
             }
         }, SPLASH_SCREEN);
     }
