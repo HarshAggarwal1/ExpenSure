@@ -1,26 +1,13 @@
 package com.accenture.accpenture.activities;
 
-import android.app.Dialog;
-import android.database.DataSetObserver;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,14 +15,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.accenture.accpenture.ExpenseAdapter;
 import com.accenture.accpenture.ExpenseFragmentDataModel;
-import com.accenture.accpenture.FragmentDataModel;
 import com.accenture.accpenture.R;
+import com.accenture.accpenture.database.Database;
+import com.accenture.accpenture.database.ExpensesHelperClassFirebase;
+import com.accenture.accpenture.database.UserHelperClassFirebase;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Objects;
 
 public class AddExpense extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -45,9 +42,16 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
     private Spinner spinner;
     private BottomSheetDialog bottomSheetDialog;
     private ArrayList<ExpenseFragmentDataModel> dataHolder;
+    private FirebaseDatabase rootNode;
+    private DatabaseReference reference;
+    private ExpensesHelperClassFirebase helperClass;
+    private Database database;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         config();
+
+        database = Database.getInstance(getApplicationContext());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
 
@@ -72,11 +76,65 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
                 return true;
             }
             else if (item.getItemId() == R.id.expense_save) {
+                saveInDatabase();
                 return true;
             }
             return false;
         });
 
+    }
+
+    private void saveInDatabase() {
+        if (dataHolder.size() == 0) {
+            Toast.makeText(this, "No Expense Added!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        for (int i = 0; i < dataHolder.size(); i++) {
+            ExpenseFragmentDataModel expenseFragmentDataModel = dataHolder.get(i);
+            String commodityName = expenseFragmentDataModel.getCommodityName();
+            String commodityPrice = expenseFragmentDataModel.getCommodityPrice();
+            String commodityQuantity = expenseFragmentDataModel.getCommodityQuantity();
+            String category = expenseFragmentDataModel.getCategory();
+
+            int j = 0;
+            while (j < 320) {
+                j++;
+            }
+            saveInDatabaseItem(commodityName, commodityPrice, commodityQuantity, category);
+        }
+
+        Toast.makeText(this, "Expense Added!", Toast.LENGTH_SHORT).show();
+
+        onBackPressed();
+    }
+
+    private void saveInDatabaseItem(String commodityName, String commodityPrice, String commodityQuantity, String commodityCategory) {
+
+        rootNode = FirebaseDatabase.getInstance();
+        reference = rootNode.getReference("expenses");
+
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("en", "IN"));
+        String dateString = df.format(new Date());
+
+        String userNameExpensesFirebase = database.appDao().getFirstRow().getUsername();
+
+        String categoryExpensesFirebase = commodityCategory;
+        String amountExpensesFirebase = commodityPrice;
+        String quantityExpensesFirebase = commodityQuantity;
+        String commNameExpensesFirebase = commodityName;
+
+        String currTimeStamp = String.valueOf(System.currentTimeMillis());
+
+        helperClass = new ExpensesHelperClassFirebase(currTimeStamp, userNameExpensesFirebase, categoryExpensesFirebase, amountExpensesFirebase, dateString, commNameExpensesFirebase, quantityExpensesFirebase);
+
+        reference.child(currTimeStamp).setValue(helperClass).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(this, "Expense Added!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Expense Not Added!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void createDialog() {
@@ -96,7 +154,7 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
 
         saveButton.setOnClickListener(v -> {
             String selectedCategory = spinner.getSelectedItem().toString();
-            String categoryString = Objects.requireNonNull(commodityEditText.getEditText()).getText().toString();
+            String commodityString = Objects.requireNonNull(commodityEditText.getEditText()).getText().toString();
             String amountString = Objects.requireNonNull(amountEditText.getEditText()).getText().toString();
             String quantityString = Objects.requireNonNull(quantityEditText.getEditText()).getText().toString();
             if (selectedCategory.equals("Select Category…")) {
@@ -104,7 +162,7 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
                 bottomSheetDialog.dismiss();
                 return;
             }
-            dataHolder.add(new ExpenseFragmentDataModel(categoryString, amountString, quantityString, selectedCategory));
+            dataHolder.add(new ExpenseFragmentDataModel(commodityString, amountString, quantityString, selectedCategory));
             ExpenseAdapter expenseAdapter = new ExpenseAdapter(dataHolder);
             recyclerView.setAdapter(expenseAdapter);
             bottomSheetDialog.dismiss();
