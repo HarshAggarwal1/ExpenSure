@@ -31,9 +31,13 @@ public class ExpensesHelperClassFirebase {
         return id;
     }
 
-    String id, userId, category, price, date, commName, quantity;
+    public String getDayName() {
+        return dayName;
+    }
 
-    public ExpensesHelperClassFirebase(String id, String userId, String category, String amount, String date, String commName, String quantity) {
+    String id, userId, category, price, date, commName, quantity, dayName;
+
+    public ExpensesHelperClassFirebase(String id, String userId, String category, String amount, String date, String commName, String quantity, String dayName) {
         this.id = id;
         this.userId = userId;
         this.category = category;
@@ -41,5 +45,6 @@ public class ExpensesHelperClassFirebase {
         this.date = date;
         this.commName = commName;
         this.quantity = quantity;
+        this.dayName = dayName;
     }
 }

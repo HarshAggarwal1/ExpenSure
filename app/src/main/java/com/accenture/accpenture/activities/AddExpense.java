@@ -118,14 +118,10 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
 
         String userNameExpensesFirebase = database.appDao().getFirstRow().getUsername();
 
-        String categoryExpensesFirebase = commodityCategory;
-        String amountExpensesFirebase = commodityPrice;
-        String quantityExpensesFirebase = commodityQuantity;
-        String commNameExpensesFirebase = commodityName;
-
         String currTimeStamp = String.valueOf(System.currentTimeMillis());
+        String currDayName = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(System.currentTimeMillis());
 
-        helperClass = new ExpensesHelperClassFirebase(currTimeStamp, userNameExpensesFirebase, categoryExpensesFirebase, amountExpensesFirebase, dateString, commNameExpensesFirebase, quantityExpensesFirebase);
+        helperClass = new ExpensesHelperClassFirebase(currTimeStamp, userNameExpensesFirebase, commodityCategory, commodityPrice, dateString, commodityName, commodityQuantity, currDayName);
 
         reference.child(currTimeStamp).setValue(helperClass).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
