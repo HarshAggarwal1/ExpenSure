@@ -50,6 +50,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
         </activity>
+        <activity android:name=".activities.CategoryBasedAnalysis"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        </activity>
     </application>
 
 </manifest>

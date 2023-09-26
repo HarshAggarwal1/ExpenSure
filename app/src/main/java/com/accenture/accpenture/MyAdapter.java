@@ -1,5 +1,8 @@
 package com.accenture.accpenture;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.accenture.accpenture.activities.CategoryBasedAnalysis;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 
@@ -27,7 +33,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-//        holder.textView.setText(dataHolder.get(position).text);
+        holder.cardView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), CategoryBasedAnalysis.class);
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -37,10 +46,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
 
     class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView textView;
+        MaterialCardView cardView;
         public MyViewHolder(@NonNull View view) {
             super(view);
-//            textView = view.findViewById(R.id.tempCardViewT);
+            cardView = view.findViewById(R.id.pieChartCard);
         }
     }
 }

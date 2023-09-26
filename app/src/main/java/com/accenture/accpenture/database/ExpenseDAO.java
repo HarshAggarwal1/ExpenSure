@@ -33,6 +33,7 @@ public interface ExpenseDAO {
     @Query("DELETE FROM ExpenseData WHERE day = :day AND month = :month AND year = :year")
     void deleteExpenseDataFromSameDay(String day, String month, String year);
 
+
     // delete all fields from same month and year
     @Query("DELETE FROM ExpenseData WHERE month = :month AND year = :year")
     void deleteExpenseDataFromSameMonth(String month, String year);

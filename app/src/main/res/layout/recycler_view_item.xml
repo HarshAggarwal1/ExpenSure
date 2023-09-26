@@ -11,6 +11,7 @@
     android:focusable="true"
     app:strokeColor="@color/black"
     app:strokeWidth="2dp"
+    android:id="@+id/pieChartCard"
     android:backgroundTint="#FF1B2542"
     android:layout_margin="20dp"
     app:rippleColor="@color/purple_200">
