@@ -60,7 +60,7 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
         String month = getMonthFromTimestamp(timeStamp);
         String year = getYearFromTimestamp(timeStamp);
 
-        String timeOfViewText = "Time of view: " + getDayNameFromTimestamp(timeStamp) + ", " + day + "/" + month + "/" + year;
+        String timeOfViewText = getDayNameFromTimestamp(timeStamp) + ", " + day + "/" + month + "/" + year;
         timeOfView.setText(timeOfViewText);
 
         database = Database.getInstance(this);
