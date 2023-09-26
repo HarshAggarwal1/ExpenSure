@@ -29,6 +29,18 @@ public interface ExpenseDAO {
     @Query("SELECT * FROM ExpenseData WHERE category = :category")
     ExpenseData[] getExpenseDataFromSameCategory(String category);
 
+    // get all fields of a particular category on a particular day and month and year
+    @Query("SELECT * FROM ExpenseData WHERE category = :category AND day = :day AND month = :month AND year = :year")
+    ExpenseData[] getExpenseDataFromSameCategoryOnSameDay(String category, String day, String month, String year);
+
+    // get all fields of a particular category on a particular month and year
+    @Query("SELECT * FROM ExpenseData WHERE category = :category AND month = :month AND year = :year")
+    ExpenseData[] getExpenseDataFromSameCategoryOnSameMonth(String category, String month, String year);
+
+    // get all fields of a particular category on a particular year
+    @Query("SELECT * FROM ExpenseData WHERE category = :category AND year = :year")
+    ExpenseData[] getExpenseDataFromSameCategoryOnSameYear(String category, String year);
+
     // delete all fields from same day, month and year
     @Query("DELETE FROM ExpenseData WHERE day = :day AND month = :month AND year = :year")
     void deleteExpenseDataFromSameDay(String day, String month, String year);

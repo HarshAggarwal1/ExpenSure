@@ -17,4 +17,18 @@
     <color name="gray">#FF808080</color>
 <!--    <color name="faded_transparent">#11000000</color>-->
     <color name="grayish_white">#FFD6DEE9</color>
+
+
+<!--    Colors for Categorical Analysis-->
+    <color name="color1">#FFC28590</color>
+    <color name="color2">#FF83AAED</color>
+    <color name="color3">#FFA8E6CF</color>
+    <color name="color4">#FFB9B95C</color>
+    <color name="color5">#FFD0E6A5</color>
+    <color name="color6">#FF26ECA5</color>
+    <color name="color7">#FFFF90F0</color>
+    <color name="color8">#FFEA8555</color>
+    <color name="color9">#FFD36BFF</color>
+    <color name="color10">#FF019A8C</color>
+
 </resources>
