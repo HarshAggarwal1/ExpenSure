@@ -2,6 +2,7 @@ package com.accenture.accpenture.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.accenture.accpenture.R;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +34,7 @@ public class DashboardFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private RecyclerView recyclerView1, recyclerView2, recyclerView3, recyclerView4;
+    private RecyclerView recyclerView;
     private ArrayList<FragmentDataModel> dataHolder;
     private MaterialCardView cardView;
 
@@ -72,37 +74,23 @@ public class DashboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =   inflater.inflate(R.layout.fragment_dashboard, container, false);
-        recyclerView1 = view.findViewById(R.id.recycler_view1);
-//        recyclerView2 = view.findViewById(R.id.recycler_view2);
-//        recyclerView3 = view.findViewById(R.id.recycler_view3);
-//        recyclerView4 = view.findViewById(R.id.recycler_view4);
+        recyclerView = view.findViewById(R.id.recycler_view1);
 
-        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-//        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-//        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-//        RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
-        recyclerView1.setLayoutManager(layoutManager1);
-//        recyclerView2.setLayoutManager(layoutManager2);
-//        recyclerView3.setLayoutManager(layoutManager3);
-//        recyclerView4.setLayoutManager(layoutManager4);
+        recyclerView.setLayoutManager(layoutManager);
 
         dataHolder = new ArrayList<>();
 
-        dataHolder.add(new FragmentDataModel("1"));
-        dataHolder.add(new FragmentDataModel("2"));
-        dataHolder.add(new FragmentDataModel("3"));
-        dataHolder.add(new FragmentDataModel("4"));
+        dataHolder.add(new FragmentDataModel("Today"));
+        dataHolder.add(new FragmentDataModel("Weekly"));
+        dataHolder.add(new FragmentDataModel("Monthly"));
+        dataHolder.add(new FragmentDataModel("Yearly"));
+        dataHolder.add(new FragmentDataModel("All\nExpenses"));
 
-        MyAdapter myAdapter1 = new MyAdapter(dataHolder);
-        MyAdapter myAdapter2 = new MyAdapter(dataHolder);
-        MyAdapter myAdapter3 = new MyAdapter(dataHolder);
-        MyAdapter myAdapter4 = new MyAdapter(dataHolder);
+        MyAdapter myAdapter = new MyAdapter(dataHolder);
 
-        recyclerView1.setAdapter(myAdapter1);
-//        recyclerView2.setAdapter(myAdapter2);
-//        recyclerView3.setAdapter(myAdapter3);
-//        recyclerView4.setAdapter(myAdapter4);
+        recyclerView.setAdapter(myAdapter);
 
         return view;
     }

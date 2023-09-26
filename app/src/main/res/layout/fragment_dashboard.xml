@@ -4,71 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.DashboardFragment">
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="200dp"
-            android:orientation="vertical">
-        <!-- TODO: Update blank fragment layout -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Today's Expenses"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="10dp"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/recycler_view1"
-                android:layout_marginBottom="10dp" />
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:text="Title2"-->
-<!--                android:textSize="20sp" />-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/recycler_view2"
-                android:layout_marginBottom="10dp" />
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:text="Title3"-->
-<!--                android:textSize="20sp" />-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/recycler_view3"
-                android:layout_marginBottom="10dp" />
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:layout_marginStart="10dp"-->
-<!--                android:text="Title4"-->
-<!--                android:textSize="20sp" />-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/recycler_view4"
-                android:layout_marginBottom="10dp" />
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/recycler_view1"
+        android:paddingBottom="110dp"/>
 </FrameLayout>
