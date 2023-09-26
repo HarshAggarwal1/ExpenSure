@@ -34,6 +34,7 @@ import java.util.Locale;
 public class CategoryBasedAnalysis extends AppCompatActivity {
     private PieChart pieChart;
     private RecyclerView recyclerView;
+    private TextView timeOfView;
     private int[] pricePerCategory = new int[10];
     private final String[] category = {"Food", "Travel", "Shopping", "Entertainment", "Health", "Education", "Appliances", "Grocery", "Crockery", "Other"};
     private Database database;
@@ -49,6 +50,8 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
 
         pieChart = findViewById(R.id.pieChart);
         recyclerView = findViewById(R.id.recyclerViewCategoryBasedAnalysis);
+        timeOfView =   findViewById(R.id.textViewTimeOfViewCategoryBasedAnalysis);
+
 
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         String timeStamp = String.valueOf(ts.getTime());
@@ -56,6 +59,9 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
         String day = getDayFromTimestamp(timeStamp);
         String month = getMonthFromTimestamp(timeStamp);
         String year = getYearFromTimestamp(timeStamp);
+
+        String timeOfViewText = "Time of view: " + getDayNameFromTimestamp(timeStamp) + ", " + day + "/" + month + "/" + year;
+        timeOfView.setText(timeOfViewText);
 
         database = Database.getInstance(this);
 
