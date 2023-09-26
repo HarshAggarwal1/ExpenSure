@@ -144,6 +144,14 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
 
         helperClass = new ExpensesHelperClassFirebase(currTimeStamp, userNameExpensesFirebase, commodityCategory, commodityPrice, commodityName, commodityQuantity, dateString);
 
+        String pricePerPiece = String.valueOf(Double.parseDouble(commodityPrice) / Double.parseDouble(commodityQuantity));
+        String dayName = getDayNameFromTimestamp(currTimeStamp);
+        String day = getDayFromTimestamp(currTimeStamp);
+        String month = getMonthFromTimestamp(currTimeStamp);
+        String year = getYearFromTimestamp(currTimeStamp);
+
+        database.expenseDao().insert(new com.accenture.accpenture.database.ExpenseData(commodityName, commodityCategory, commodityPrice, commodityQuantity, pricePerPiece, dayName, day, month, year));
+
         reference.child(currTimeStamp).setValue(helperClass).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(this, "Expense Added!", Toast.LENGTH_SHORT).show();
@@ -218,6 +226,32 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
         dialog.dismiss();
     }
 
-
+    private String getDayNameFromTimestamp(String timeStamp) {
+        return new SimpleDateFormat("EEEE", Locale.ENGLISH).format(Long.parseLong(timeStamp));
+    }
+    private String getMonthFromTimestamp(String timeStamp) {
+        Timestamp ts = new Timestamp(Long.parseLong(timeStamp));
+        Date date = new Date(ts.getTime());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+        return String.valueOf(month + 1);
+    }
+    private String getYearFromTimestamp(String timeStamp) {
+        Timestamp ts = new Timestamp(Long.parseLong(timeStamp));
+        Date date = new Date(ts.getTime());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        return String.valueOf(year);
+    }
+    private String getDayFromTimestamp(String timeStamp) {
+        Timestamp ts = new Timestamp(Long.parseLong(timeStamp));
+        Date date = new Date(ts.getTime());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return String.valueOf(day);
+    }
 
 }
