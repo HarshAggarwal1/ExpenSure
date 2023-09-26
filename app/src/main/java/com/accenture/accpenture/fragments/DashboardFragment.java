@@ -73,19 +73,19 @@ public class DashboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =   inflater.inflate(R.layout.fragment_dashboard, container, false);
         recyclerView1 = view.findViewById(R.id.recycler_view1);
-        recyclerView2 = view.findViewById(R.id.recycler_view2);
-        recyclerView3 = view.findViewById(R.id.recycler_view3);
-        recyclerView4 = view.findViewById(R.id.recycler_view4);
+//        recyclerView2 = view.findViewById(R.id.recycler_view2);
+//        recyclerView3 = view.findViewById(R.id.recycler_view3);
+//        recyclerView4 = view.findViewById(R.id.recycler_view4);
 
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+//        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+//        RecyclerView.LayoutManager layoutManager3 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+//        RecyclerView.LayoutManager layoutManager4 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
 
         recyclerView1.setLayoutManager(layoutManager1);
-        recyclerView2.setLayoutManager(layoutManager2);
-        recyclerView3.setLayoutManager(layoutManager3);
-        recyclerView4.setLayoutManager(layoutManager4);
+//        recyclerView2.setLayoutManager(layoutManager2);
+//        recyclerView3.setLayoutManager(layoutManager3);
+//        recyclerView4.setLayoutManager(layoutManager4);
 
         dataHolder = new ArrayList<>();
 
@@ -100,9 +100,9 @@ public class DashboardFragment extends Fragment {
         MyAdapter myAdapter4 = new MyAdapter(dataHolder);
 
         recyclerView1.setAdapter(myAdapter1);
-        recyclerView2.setAdapter(myAdapter2);
-        recyclerView3.setAdapter(myAdapter3);
-        recyclerView4.setAdapter(myAdapter4);
+//        recyclerView2.setAdapter(myAdapter2);
+//        recyclerView3.setAdapter(myAdapter3);
+//        recyclerView4.setAdapter(myAdapter4);
 
         return view;
     }

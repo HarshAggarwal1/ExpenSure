@@ -1,7 +1,5 @@
 package com.accenture.accpenture.database;
 
-import java.util.Date;
-
 public class ExpensesHelperClassFirebase {
     public String getUserId() {
         return userId;
@@ -13,10 +11,6 @@ public class ExpensesHelperClassFirebase {
 
     public String getPrice() {
         return price;
-    }
-
-    public String getDate() {
-        return date;
     }
 
     public String getCommName() {
@@ -31,20 +25,19 @@ public class ExpensesHelperClassFirebase {
         return id;
     }
 
-    public String getDayName() {
-        return dayName;
+    public String getDate() {
+        return date;
     }
 
-    String id, userId, category, price, date, commName, quantity, dayName;
+    String id, userId, category, price, commName, quantity, date;
 
-    public ExpensesHelperClassFirebase(String id, String userId, String category, String amount, String date, String commName, String quantity, String dayName) {
+    public ExpensesHelperClassFirebase(String id, String userId, String category, String amount, String commName, String quantity, String date) {
         this.id = id;
         this.userId = userId;
         this.category = category;
         this.price = amount;
-        this.date = date;
         this.commName = commName;
         this.quantity = quantity;
-        this.dayName = dayName;
+        this.date = date;
     }
 }

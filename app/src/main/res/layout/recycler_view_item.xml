@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="200dp"
     android:layout_gravity="center"
     app:cardCornerRadius="10dp"
     app:cardElevation="10dp"
@@ -10,18 +11,40 @@
     android:focusable="true"
     app:strokeColor="@color/black"
     app:strokeWidth="2dp"
-    android:backgroundTint="@color/grayish_white"
+    android:backgroundTint="#FF1B2542"
     android:layout_margin="20dp"
-    app:rippleColor="@color/purple_200"
-    android:layout_height="wrap_content">
+    app:rippleColor="@color/purple_200">
 
-    <TextView
-        android:layout_width="200dp"
-        android:layout_height="160dp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:id="@+id/tempCardViewT"
-        android:textSize="60sp"
-        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/pie_chart"
+            android:id="@+id/pieChart">
+
+        </ImageView>
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="170dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/pieChart"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Category\nWise"
+            android:gravity="center"
+            android:textSize="28sp"
+            android:textColor="#FF388ED8"
+            android:textStyle="bold|italic"
+            android:id="@+id/pieChartText" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    
 
 </com.google.android.material.card.MaterialCardView>

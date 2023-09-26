@@ -1,13 +1,18 @@
 package com.accenture.accpenture.activities;
 
+import static java.util.Objects.requireNonNull;
+
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,19 +23,26 @@ import com.accenture.accpenture.ExpenseFragmentDataModel;
 import com.accenture.accpenture.R;
 import com.accenture.accpenture.database.Database;
 import com.accenture.accpenture.database.ExpensesHelperClassFirebase;
+import com.accenture.accpenture.database.FetchExpenseDataFromFirebase;
 import com.accenture.accpenture.database.UserHelperClassFirebase;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -46,6 +58,8 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
     private DatabaseReference reference;
     private ExpensesHelperClassFirebase helperClass;
     private Database database;
+    private Dialog dialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         config();
@@ -85,11 +99,17 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     private void saveInDatabase() {
+        showProgressBar();
         if (dataHolder.size() == 0) {
             Toast.makeText(this, "No Expense Added!", Toast.LENGTH_SHORT).show();
+
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("en", "IN"));
+            String dateString = df.format(new Date());
+
             return;
         }
-        for (int i = 0; i < dataHolder.size(); i++) {
+        int i = 0;
+        for (; i < dataHolder.size(); i++) {
             ExpenseFragmentDataModel expenseFragmentDataModel = dataHolder.get(i);
             String commodityName = expenseFragmentDataModel.getCommodityName();
             String commodityPrice = expenseFragmentDataModel.getCommodityPrice();
@@ -102,7 +122,9 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
             }
             saveInDatabaseItem(commodityName, commodityPrice, commodityQuantity, category);
         }
-
+        if (dataHolder.size() == i) {
+            hideProgressBar();
+        }
         Toast.makeText(this, "Expense Added!", Toast.LENGTH_SHORT).show();
 
         onBackPressed();
@@ -119,9 +141,8 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
         String userNameExpensesFirebase = database.appDao().getFirstRow().getUsername();
 
         String currTimeStamp = String.valueOf(System.currentTimeMillis());
-        String currDayName = new SimpleDateFormat("EEEE", Locale.ENGLISH).format(System.currentTimeMillis());
 
-        helperClass = new ExpensesHelperClassFirebase(currTimeStamp, userNameExpensesFirebase, commodityCategory, commodityPrice, dateString, commodityName, commodityQuantity, currDayName);
+        helperClass = new ExpensesHelperClassFirebase(currTimeStamp, userNameExpensesFirebase, commodityCategory, commodityPrice, commodityName, commodityQuantity, dateString);
 
         reference.child(currTimeStamp).setValue(helperClass).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -184,4 +205,19 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    private void showProgressBar() {
+        dialog = new Dialog(AddExpense.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.progress_bar);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+    private void hideProgressBar() {
+        dialog.dismiss();
+    }
+
+
+
 }

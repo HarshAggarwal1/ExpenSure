@@ -205,7 +205,7 @@ public class Login extends AppCompatActivity {
 
     private void showProgressBar() {
         dialog = new Dialog(Login.this);
-        dialog.requestWindowFeature(getWindow().FEATURE_NO_TITLE);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.progress_bar);
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);

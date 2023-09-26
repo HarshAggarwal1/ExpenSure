@@ -43,16 +43,22 @@
                 android:id="@+id/userProfileImageUserProfile" />
         </com.google.android.material.card.MaterialCardView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            app:layout_constraintTop_toBottomOf="@id/userProfileImageUserProfileCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
+
         <com.google.android.material.card.MaterialCardView
             android:layout_width="120dp"
             android:layout_height="130dp"
             app:cardCornerRadius="10dp"
-            app:layout_constraintTop_toBottomOf="@id/userProfileImageUserProfileCard"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="50dp"
             app:rippleColor="@color/purple_200"
             android:id="@+id/logoutUserProfile"
-            android:layout_marginStart="20dp"
             app:cardBackgroundColor="@color/grayish_white"
             app:cardElevation="10dp">
             <LinearLayout
@@ -79,6 +85,41 @@
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="120dp"
+            android:layout_height="130dp"
+            app:cardCornerRadius="10dp"
+            app:rippleColor="@color/purple_200"
+            android:id="@+id/loadDatabaseUserProfile"
+            android:layout_marginStart="50dp"
+            app:cardBackgroundColor="@color/grayish_white"
+            app:cardElevation="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+<!--                <ImageView-->
+<!--                    android:layout_width="60dp"-->
+<!--                    android:layout_height="60dp"-->
+<!--                    android:layout_gravity="center_horizontal|top"-->
+<!--                    android:layout_marginTop="20dp"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    android:src="@drawable/logout1_24dp" />-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Get Data"
+                    android:textAllCaps="true"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/accenture_green" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

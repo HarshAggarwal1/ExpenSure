@@ -5,7 +5,7 @@ import android.content.Context;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@androidx.room.Database(entities = {AppData.class}, version = 1, exportSchema = false)
+@androidx.room.Database(entities = {AppData.class, ExpenseData.class}, version = 1, exportSchema = false)
 public abstract class Database extends RoomDatabase {
     private static final String DB_NAME = "Database";
     private static Database instance;
@@ -21,4 +21,5 @@ public abstract class Database extends RoomDatabase {
     }
 
     public abstract AppDAO appDao();
+    public abstract ExpenseDAO expenseDao();
 }
