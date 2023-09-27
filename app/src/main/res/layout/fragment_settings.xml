@@ -99,23 +99,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-<!--                <ImageView-->
-<!--                    android:layout_width="60dp"-->
-<!--                    android:layout_height="60dp"-->
-<!--                    android:layout_gravity="center_horizontal|top"-->
-<!--                    android:layout_marginTop="20dp"-->
-<!--                    android:scaleType="fitXY"-->
-<!--                    android:src="@drawable/logout1_24dp" />-->
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal|top"
+                    android:layout_marginTop="20dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/restore_data_24dp" />
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Get Data"
+                    android:text="Restore"
                     android:textAllCaps="true"
                     android:layout_marginTop="10dp"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:textColor="@color/accenture_green" />
+                    android:textColor="@color/purple_500" />
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>
