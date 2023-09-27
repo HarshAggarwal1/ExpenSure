@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.accenture.accpenture.activities.AllExpenses;
 import com.accenture.accpenture.activities.CategoryBasedAnalysis;
 import com.google.android.material.card.MaterialCardView;
 
@@ -39,8 +40,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
             holder.cardView.setBackgroundColor(Color.rgb(22, 2, 78));
         }
         holder.cardView.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), CategoryBasedAnalysis.class);
-            intent.putExtra("category", dataHolder.get(position).getText());
+            String dataHolderCategory = dataHolder.get(position).getText();
+            Intent intent;
+            if (dataHolderCategory.equals("All\nExpenses")) {
+                intent = new Intent(v.getContext(), AllExpenses.class);
+            }
+            else {
+                intent = new Intent(v.getContext(), CategoryBasedAnalysis.class);
+                intent.putExtra("category", dataHolderCategory);
+            }
             v.getContext().startActivity(intent);
         });
     }
