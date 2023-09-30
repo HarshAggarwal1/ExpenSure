@@ -111,11 +111,6 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
         int i = 0;
         for (; i < dataHolder.size(); i++) {
             ExpenseFragmentDataModel expenseFragmentDataModel = dataHolder.get(i);
-            if (expenseFragmentDataModel.getCommodityName().equals("") || expenseFragmentDataModel.getCommodityPrice().equals("") || expenseFragmentDataModel.getCommodityQuantity().equals("")) {
-                Toast.makeText(this, "Please Fill All Fields!", Toast.LENGTH_SHORT).show();
-                hideProgressBar();
-                return;
-            }
             String commodityName = expenseFragmentDataModel.getCommodityName();
             String commodityPrice = expenseFragmentDataModel.getCommodityPrice();
             String commodityQuantity = expenseFragmentDataModel.getCommodityQuantity();
@@ -190,6 +185,18 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
             if (selectedCategory.equals("Select Category…")) {
                 Toast.makeText(this, "No Category Selected!", Toast.LENGTH_SHORT).show();
                 bottomSheetDialog.dismiss();
+                return;
+            }
+            if (commodityString.isEmpty()) {
+                commodityEditText.setError("Field can't be empty");
+                return;
+            }
+            if (amountString.isEmpty()) {
+                amountEditText.setError("Field can't be empty");
+                return;
+            }
+            if (quantityString.isEmpty()) {
+                quantityEditText.setError("Field can't be empty");
                 return;
             }
             dataHolder.add(new ExpenseFragmentDataModel(commodityString, amountString, quantityString, selectedCategory));
