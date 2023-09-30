@@ -2,6 +2,7 @@ package com.accenture.accpenture.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,9 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
     private final String[] category = {"Food", "Travel", "Shopping", "Entertainment", "Health", "Education", "Appliances", "Grocery", "Crockery", "Other"};
     private Database database;
     private ArrayList<TableDataModel> tableDataModels;
+    private ImageView priceChangeImage;
+    private TextView priceChangeText;
+    private int[] pricePerCategoryPrev = new int[10];
     @Override
     public void onCreate(Bundle savedInstanceState) {
         config();
@@ -54,6 +58,9 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
         timeOfView =   findViewById(R.id.textViewTimeOfViewCategoryBasedAnalysis);
         totalSpent = findViewById(R.id.textViewTotalSpentToday);
         totalSpentDesc = findViewById(R.id.textViewTotalSpentTodayDescriptor);
+        priceChangeImage = findViewById(R.id.imageViewExpenseDecreasedIncreased);
+        priceChangeText = findViewById(R.id.textViewExpenseDecreasedIncreased);
+
 
 
         Timestamp ts = new Timestamp(System.currentTimeMillis());
@@ -127,6 +134,49 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
             pieData.setValueTextSize(14f);
             pieData.setValueTextColor(Color.rgb(255, 0, 0));
             pieChart.setData(pieData);
+
+            Timestamp prevTs = new Timestamp(System.currentTimeMillis() - 86400000);
+            String prevTimeStamp = String.valueOf(prevTs.getTime());
+            String prevDay = getDayFromTimestamp(prevTimeStamp);
+            String prevMonth = getMonthFromTimestamp(prevTimeStamp);
+            String prevYear = getYearFromTimestamp(prevTimeStamp);
+
+            for (int i = 0; i < 10; i++) {
+                ExpenseData[] expenseData = database.expenseDao().getExpenseDataFromSameCategoryOnSameDay(category[i], prevDay, prevMonth, prevYear);
+                for (ExpenseData expenseData1 : expenseData) {
+                    pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                }
+            }
+
+            double totalExpensePrev = 0;
+            for (int price : pricePerCategoryPrev) {
+                totalExpensePrev += price;
+            }
+
+            double percentageChange = 0;
+            if (totalExpensePrev == 0) {
+                percentageChange = 100;
+            }
+            else {
+                percentageChange = ((totalExpense - totalExpensePrev) / totalExpensePrev) * 100;
+            }
+            int percentageChangeInt = (int) percentageChange;
+
+            if (percentageChangeInt < 0) {
+                percentageChangeInt = percentageChangeInt * -1;
+                String priceChangeText1 = String.valueOf(percentageChangeInt) + "% less\nthan yesterday";
+                priceChangeText.setText(priceChangeText1);
+                priceChangeImage.setImageResource(R.drawable.price_decreased);
+            } else if (percentageChange == 0) {
+                priceChangeImage.setVisibility(ImageView.INVISIBLE);
+                priceChangeText.setVisibility(TextView.INVISIBLE);
+            } else {
+                String priceChangeText1 = String.valueOf(percentageChangeInt) + "% more\nthan yesterday";
+                priceChangeText.setText(priceChangeText1);
+                priceChangeText.setTextColor(Color.rgb(255, 0, 0));
+                priceChangeImage.setImageResource(R.drawable.price_increased);
+            }
+
             setDataInRecyclerViewDataHolder(day, month, year);
             TableAdapter tableAdapter = new TableAdapter(tableDataModels);
             recyclerView.setAdapter(tableAdapter);
@@ -138,7 +188,7 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
 
             for (int i = 0; i < 10; i++) {
                 ExpenseData[] expenseData = database.expenseDao().getExpenseDataFromSameCategoryOnSameMonth(category[i], month, year);
-                makePricePerCategoryForWeek(expenseData, day, i);
+                makePricePerCategoryForWeek(expenseData, day, i, 0);
             }
 
             double totalExpense = 0;
@@ -154,6 +204,8 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
             totalSpentDesc.setText(totalSpentText);
             String totalSpentText1 = "₹" + String.valueOf(totalExpense);
             totalSpent.setText(totalSpentText1);
+
+            System.out.println("This week expense: " + totalExpense);
 
             for (int i = 0; i < 10; i++) {
                 if (pricePerCategory[i] != 0) {
@@ -171,6 +223,50 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
             pieData.setValueTextSize(14f);
             pieData.setValueTextColor(Color.rgb(255, 0, 0));
             pieChart.setData(pieData);
+
+            if (weekNum.equals("1")) {
+                priceChangeImage.setVisibility(ImageView.INVISIBLE);
+                priceChangeText.setVisibility(TextView.INVISIBLE);
+            }
+            else {
+                for (int i = 0; i < 10; i++) {
+                    ExpenseData[] expenseData = database.expenseDao().getExpenseDataFromSameCategoryOnSameMonth(category[i], month, year);
+                    makePricePerCategoryForWeek(expenseData, day, i, 1);
+                }
+                int totalExpensePrev = 0;
+                for (int price : pricePerCategoryPrev) {
+                    totalExpensePrev += price;
+                }
+
+                System.out.println("Prev week expense: " + totalExpensePrev);
+                double percentageChange = 0;
+                if (totalExpensePrev == 0) {
+                    percentageChange = 100;
+                }
+                else {
+                    percentageChange = ((totalExpense - totalExpensePrev) / totalExpensePrev) * 100;
+                }
+
+                int percentageChangeInt = (int) percentageChange;
+
+                if (percentageChangeInt < 0) {
+                    percentageChangeInt = percentageChangeInt * -1;
+                    String priceChangeText1 = String.valueOf(percentageChangeInt) + "% less\nthan previous week";
+                    priceChangeText.setText(priceChangeText1);
+                    priceChangeImage.setImageResource(R.drawable.price_decreased);
+                }
+                else if (percentageChangeInt == 0) {
+                    priceChangeImage.setVisibility(ImageView.INVISIBLE);
+                    priceChangeText.setVisibility(TextView.INVISIBLE);
+                }
+                else {
+                    String priceChangeText1 = String.valueOf(percentageChangeInt) + "% more\nthan previous week";
+                    priceChangeText.setText(priceChangeText1);
+                    priceChangeText.setTextColor(Color.rgb(255, 0, 0));
+                    priceChangeImage.setImageResource(R.drawable.price_increased);
+                }
+            }
+
             setDataInRecyclerViewDataHolderOnSameWeek(month, year, day);
             TableAdapter tableAdapter = new TableAdapter(tableDataModels);
             recyclerView.setAdapter(tableAdapter);
@@ -216,6 +312,53 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
             pieData.setValueTextSize(14f);
             pieData.setValueTextColor(Color.rgb(255, 0, 0));
             pieChart.setData(pieData);
+
+            Timestamp prevTs = new Timestamp(System.currentTimeMillis() - 2592000000L);
+            String prevTimeStamp = String.valueOf(prevTs.getTime());
+            String prevDay = getDayFromTimestamp(prevTimeStamp);
+            String prevMonth = getMonthFromTimestamp(prevTimeStamp);
+            String prevYear = getYearFromTimestamp(prevTimeStamp);
+
+            for (int i = 0; i < 10; i++) {
+                ExpenseData[] expenseData = database.expenseDao().getExpenseDataFromSameCategoryOnSameMonth(category[i], prevMonth, prevYear);
+                for (ExpenseData expenseData1 : expenseData) {
+                    pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                }
+            }
+
+            double totalExpensePrev = 0;
+            for (int price : pricePerCategoryPrev) {
+                totalExpensePrev += price;
+            }
+
+            double percentageChange = 0;
+
+            if (totalExpensePrev == 0) {
+                percentageChange = 100;
+            }
+            else {
+                percentageChange = ((totalExpense - totalExpensePrev) / totalExpensePrev) * 100;
+            }
+
+            int percentageChangeInt = (int) percentageChange;
+
+            if (percentageChangeInt < 0) {
+                percentageChangeInt = percentageChangeInt * -1;
+                String priceChangeText1 = String.valueOf(percentageChangeInt) + "% less\nthan previous month";
+                priceChangeText.setText(priceChangeText1);
+                priceChangeImage.setImageResource(R.drawable.price_decreased);
+            }
+            else if (percentageChangeInt == 0) {
+                priceChangeImage.setVisibility(ImageView.INVISIBLE);
+                priceChangeText.setVisibility(TextView.INVISIBLE);
+            }
+            else {
+                String priceChangeText1 = String.valueOf(percentageChangeInt) + "% more\nthan previous month";
+                priceChangeText.setText(priceChangeText1);
+                priceChangeText.setTextColor(Color.rgb(255, 0, 0));
+                priceChangeImage.setImageResource(R.drawable.price_increased);
+            }
+
             setDataInRecyclerViewDataHolderOnSameMonth(month, year);
             TableAdapter tableAdapter = new TableAdapter(tableDataModels);
             recyclerView.setAdapter(tableAdapter);
@@ -261,15 +404,58 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
             pieData.setValueTextSize(14f);
             pieData.setValueTextColor(Color.rgb(255, 0, 0));
             pieChart.setData(pieData);
+
+            Timestamp prevTs = new Timestamp(System.currentTimeMillis() - 31536000000L);
+            String prevTimeStamp = String.valueOf(prevTs.getTime());
+            String prevDay = getDayFromTimestamp(prevTimeStamp);
+            String prevMonth = getMonthFromTimestamp(prevTimeStamp);
+            String prevYear = getYearFromTimestamp(prevTimeStamp);
+
+            for (int i = 0; i < 10; i++) {
+                ExpenseData[] expenseData = database.expenseDao().getExpenseDataFromSameCategoryOnSameYear(category[i], prevYear);
+                for (ExpenseData expenseData1 : expenseData) {
+                    pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                }
+            }
+
+            double totalExpensePrev = 0;
+
+            for (int price : pricePerCategoryPrev) {
+                totalExpensePrev += price;
+            }
+
+            double percentageChange = 0;
+
+            if (totalExpensePrev == 0) {
+                percentageChange = 100;
+            }
+            else {
+                percentageChange = ((totalExpense - totalExpensePrev) / totalExpensePrev) * 100;
+            }
+
+            int percentageChangeInt = (int) percentageChange;
+
+            if (percentageChangeInt < 0) {
+                percentageChangeInt = percentageChangeInt * -1;
+                String priceChangeText1 = String.valueOf(percentageChangeInt) + "% less\nthan previous year";
+                priceChangeText.setText(priceChangeText1);
+                priceChangeImage.setImageResource(R.drawable.price_decreased);
+            }
+            else if (percentageChangeInt == 0) {
+                priceChangeImage.setVisibility(ImageView.INVISIBLE);
+                priceChangeText.setVisibility(TextView.INVISIBLE);
+            }
+            else {
+                String priceChangeText1 = String.valueOf(percentageChangeInt) + "% more\nthan previous year";
+                priceChangeText.setText(priceChangeText1);
+                priceChangeText.setTextColor(Color.rgb(255, 0, 0));
+                priceChangeImage.setImageResource(R.drawable.price_increased);
+            }
+
             setDataInRecyclerViewDataHolderOnSameYear(year);
             TableAdapter tableAdapter = new TableAdapter(tableDataModels);
             recyclerView.setAdapter(tableAdapter);
         }
-        else {
-            Toast.makeText(this, "BACK!!", Toast.LENGTH_SHORT).show();
-            onBackPressed();
-        }
-
     }
 
     private void setDataInRecyclerViewDataHolderOnSameYear(String year) {
@@ -423,8 +609,97 @@ public class CategoryBasedAnalysis extends AppCompatActivity {
         }
     }
 
-    private void makePricePerCategoryForWeek(ExpenseData[] expenseData, String day, int i) {
+    private void makePricePerCategoryForWeek(ExpenseData[] expenseData, String day, int i, int prev) {
         if (expenseData.length == 0) {
+            return;
+        }
+        if (prev == 1) {
+            int dayVal = Integer.parseInt(day) - 7;
+            if (dayVal % 7 == 1) {
+                int dayStart = dayVal;
+                int dayEnd = dayVal + 6;
+                for (int dayVal1 = dayStart; dayVal1 <= dayEnd; dayVal1++) {
+                    String dayVal1String = String.valueOf(dayVal1);
+                    for (ExpenseData expenseData1 : expenseData) {
+                        if (expenseData1.getDay().equals(dayVal1String)) {
+                            pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                        }
+                    }
+                }
+            }
+            else if (dayVal % 7 == 2) {
+                int dayStart = dayVal - 1;
+                int dayEnd = dayVal + 5;
+                for (int dayVal1 = dayStart; dayVal1 <= dayEnd; dayVal1++) {
+                    String dayVal1String = String.valueOf(dayVal1);
+                    for (ExpenseData expenseData1 : expenseData) {
+                        if (expenseData1.getDay().equals(dayVal1String)) {
+                            pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                        }
+                    }
+                }
+            }
+            else if (dayVal % 7 == 3) {
+                int dayStart = dayVal - 2;
+                int dayEnd = dayVal + 4;
+                for (int dayVal1 = dayStart; dayVal1 <= dayEnd; dayVal1++) {
+                    String dayVal1String = String.valueOf(dayVal1);
+                    for (ExpenseData expenseData1 : expenseData) {
+                        if (expenseData1.getDay().equals(dayVal1String)) {
+                            pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                        }
+                    }
+                }
+            }
+            else if (dayVal % 7 == 4) {
+                int dayStart = dayVal - 3;
+                int dayEnd = dayVal + 3;
+                for (int dayVal1 = dayStart; dayVal1 <= dayEnd; dayVal1++) {
+                    String dayVal1String = String.valueOf(dayVal1);
+                    for (ExpenseData expenseData1 : expenseData) {
+                        if (expenseData1.getDay().equals(dayVal1String)) {
+                            pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                        }
+                    }
+                }
+            }
+            else if (dayVal % 7 == 5) {
+                int dayStart = dayVal - 4;
+                int dayEnd = dayVal + 2;
+                for (int dayVal1 = dayStart; dayVal1 <= dayEnd; dayVal1++) {
+                    String dayVal1String = String.valueOf(dayVal1);
+                    for (ExpenseData expenseData1 : expenseData) {
+                        if (expenseData1.getDay().equals(dayVal1String)) {
+                            pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                        }
+                    }
+                }
+            }
+            else if (dayVal % 7 == 6) {
+                int dayStart = dayVal - 5;
+                int dayEnd = dayVal + 1;
+                for (int dayVal1 = dayStart; dayVal1 <= dayEnd; dayVal1++) {
+                    String dayVal1String = String.valueOf(dayVal1);
+                    for (ExpenseData expenseData1 : expenseData) {
+                        if (expenseData1.getDay().equals(dayVal1String)) {
+                            pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                        }
+                    }
+                }
+            }
+            else {
+                int dayStart = dayVal - 6;
+                int dayEnd = dayVal;
+                for (int dayVal1 = dayStart; dayVal1 <= dayEnd; dayVal1++) {
+                    String dayVal1String = String.valueOf(dayVal1);
+                    for (ExpenseData expenseData1 : expenseData) {
+                        if (expenseData1.getDay().equals(dayVal1String)) {
+                            pricePerCategoryPrev[i] += Integer.parseInt(expenseData1.getPrice());
+                        }
+                    }
+                }
+            }
+
             return;
         }
         int dayVal = Integer.parseInt(day);
