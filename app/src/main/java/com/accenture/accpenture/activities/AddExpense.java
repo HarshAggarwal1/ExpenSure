@@ -175,7 +175,10 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
         TextInputLayout commodityEditText = view.findViewById(R.id.editTextCommodityNameExpense);
         TextInputLayout amountEditText = view.findViewById(R.id.editTextPriceExpense);
         TextInputLayout quantityEditText = view.findViewById(R.id.editTextQuantityExpense);
+
         Button saveButton = view.findViewById(R.id.buttonSaveExpense);
+
+
 
         saveButton.setOnClickListener(v -> {
             String selectedCategory = spinner.getSelectedItem().toString();
@@ -191,13 +194,22 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
                 commodityEditText.setError("Field can't be empty");
                 return;
             }
+            else {
+                commodityEditText.setError(null);
+            }
             if (amountString.isEmpty()) {
                 amountEditText.setError("Field can't be empty");
                 return;
             }
+            else {
+                amountEditText.setError(null);
+            }
             if (quantityString.isEmpty()) {
                 quantityEditText.setError("Field can't be empty");
                 return;
+            }
+            else {
+                quantityEditText.setError(null);
             }
             dataHolder.add(new ExpenseFragmentDataModel(commodityString, amountString, quantityString, selectedCategory));
             ExpenseAdapter expenseAdapter = new ExpenseAdapter(dataHolder);
