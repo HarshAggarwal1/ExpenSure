@@ -105,12 +105,17 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
 
             DateFormat df = new SimpleDateFormat("dd/MM/yyyy", new Locale("en", "IN"));
             String dateString = df.format(new Date());
-
+            hideProgressBar();
             return;
         }
         int i = 0;
         for (; i < dataHolder.size(); i++) {
             ExpenseFragmentDataModel expenseFragmentDataModel = dataHolder.get(i);
+            if (expenseFragmentDataModel.getCommodityName().equals("") || expenseFragmentDataModel.getCommodityPrice().equals("") || expenseFragmentDataModel.getCommodityQuantity().equals("")) {
+                Toast.makeText(this, "Please Fill All Fields!", Toast.LENGTH_SHORT).show();
+                hideProgressBar();
+                return;
+            }
             String commodityName = expenseFragmentDataModel.getCommodityName();
             String commodityPrice = expenseFragmentDataModel.getCommodityPrice();
             String commodityQuantity = expenseFragmentDataModel.getCommodityQuantity();
