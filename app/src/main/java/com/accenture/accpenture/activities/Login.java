@@ -57,6 +57,7 @@ public class Login extends AppCompatActivity {
 
         database = Database.getInstance(getApplicationContext());
         database.appDao().deleteAll();
+        database.expenseDao().deleteAll();
 
         config();
 

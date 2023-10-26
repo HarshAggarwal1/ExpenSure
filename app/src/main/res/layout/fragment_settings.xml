@@ -48,7 +48,7 @@
             <LinearLayout
                 android:id="@+id/settingsRow1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="140dp"
                 app:layout_constraintTop_toBottomOf="@id/userProfileImageUserProfileCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -127,7 +127,7 @@
             <LinearLayout
                 android:id="@+id/settingsRow2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="160dp"
                 app:layout_constraintTop_toBottomOf="@id/settingsRow1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -170,11 +170,10 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="120dp"
-                    android:layout_height="130dp"
-                    android:visibility="invisible"
+                    android:layout_height="150dp"
                     app:cardCornerRadius="10dp"
                     app:rippleColor="@color/purple_200"
-                    android:id="@+id/loadDatabaseUserProfile1"
+                    android:id="@+id/userSettingsUserProfile"
                     android:layout_marginStart="50dp"
                     app:cardBackgroundColor="@color/grayish_white"
                     app:cardElevation="10dp">
@@ -188,12 +187,12 @@
                             android:layout_gravity="center_horizontal|top"
                             android:layout_marginTop="20dp"
                             android:scaleType="fitXY"
-                            android:src="@drawable/restore_data_24dp" />
+                            android:src="@drawable/user_settings_24dp" />
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Restore"
+                            android:text="User Settings"
                             android:textAllCaps="true"
                             android:layout_marginTop="10dp"
                             android:textSize="20sp"
