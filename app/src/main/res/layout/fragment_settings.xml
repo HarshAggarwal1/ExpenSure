@@ -1,128 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SettingsFragment">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp">
-
-        <TextView
-            android:id="@+id/userFullNameUserProfile"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sample Name"
-            android:textSize="36sp"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="25dp"
-            android:textColor="@color/purple_500"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            app:cardCornerRadius="80dp"
-            app:strokeWidth="2dp"
-            android:layout_marginTop="20dp"
-            app:strokeColor="@color/purple_500"
-            app:cardElevation="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/userFullNameUserProfile"
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/userProfileImageUserProfileCard"
-            app:layout_constraintEnd_toEndOf="parent">
-            <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/userFullNameUserProfile"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/profile_dp"
-                android:id="@+id/userProfileImageUserProfile" />
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_height="wrap_content"
+                android:text="Sample Name"
+                android:textSize="36sp"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:textColor="@color/purple_500"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            app:layout_constraintTop_toBottomOf="@id/userProfileImageUserProfileCard"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="50dp"
-            android:orientation="horizontal">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="120dp"
-            android:layout_height="130dp"
-            app:cardCornerRadius="10dp"
-            app:rippleColor="@color/purple_200"
-            android:id="@+id/logoutUserProfile"
-            app:cardBackgroundColor="@color/grayish_white"
-            app:cardElevation="10dp">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center_horizontal|top"
-                    android:layout_marginTop="20dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/logout1_24dp" />
-                <TextView
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                app:cardCornerRadius="80dp"
+                app:strokeWidth="2dp"
+                android:layout_marginTop="20dp"
+                app:strokeColor="@color/purple_500"
+                app:cardElevation="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/userFullNameUserProfile"
+                app:layout_constraintStart_toStartOf="parent"
+                android:id="@+id/userProfileImageUserProfileCard"
+                app:layout_constraintEnd_toEndOf="parent">
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Logout"
-                    android:textAllCaps="true"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/accenture_red" />
+                    android:layout_height="match_parent"
+                    android:src="@drawable/profile_dp"
+                    android:id="@+id/userProfileImageUserProfile" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:id="@+id/settingsRow1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/userProfileImageUserProfileCard"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="120dp"
+                    android:layout_height="130dp"
+                    app:cardCornerRadius="10dp"
+                    app:rippleColor="@color/purple_200"
+                    android:id="@+id/logoutUserProfile"
+                    app:cardBackgroundColor="@color/grayish_white"
+                    app:cardElevation="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal|top"
+                            android:layout_marginTop="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/logout1_24dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Logout"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="10dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/accenture_red" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="120dp"
+                    android:layout_height="130dp"
+                    app:cardCornerRadius="10dp"
+                    app:rippleColor="@color/purple_200"
+                    android:id="@+id/loadDatabaseUserProfile"
+                    android:layout_marginStart="50dp"
+                    app:cardBackgroundColor="@color/grayish_white"
+                    app:cardElevation="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal|top"
+                            android:layout_marginTop="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/restore_data_24dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Restore"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="10dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/purple_500" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="120dp"
-            android:layout_height="130dp"
-            app:cardCornerRadius="10dp"
-            app:rippleColor="@color/purple_200"
-            android:id="@+id/loadDatabaseUserProfile"
-            android:layout_marginStart="50dp"
-            app:cardBackgroundColor="@color/grayish_white"
-            app:cardElevation="10dp">
             <LinearLayout
+                android:id="@+id/settingsRow2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <ImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center_horizontal|top"
-                    android:layout_marginTop="20dp"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/restore_data_24dp" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Restore"
-                    android:textAllCaps="true"
-                    android:layout_marginTop="10dp"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/purple_500" />
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/settingsRow1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="120dp"
+                    android:layout_height="150dp"
+                    app:cardCornerRadius="10dp"
+                    app:rippleColor="@color/purple_200"
+                    android:id="@+id/setLimitUserProfile"
+                    app:cardBackgroundColor="@color/grayish_white"
+                    app:cardElevation="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal|top"
+                            android:layout_marginTop="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/rupee_24dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Month Limit"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="10dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/purple_500" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="120dp"
+                    android:layout_height="130dp"
+                    android:visibility="invisible"
+                    app:cardCornerRadius="10dp"
+                    app:rippleColor="@color/purple_200"
+                    android:id="@+id/loadDatabaseUserProfile1"
+                    android:layout_marginStart="50dp"
+                    app:cardBackgroundColor="@color/grayish_white"
+                    app:cardElevation="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal|top"
+                            android:layout_marginTop="20dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/restore_data_24dp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Restore"
+                            android:textAllCaps="true"
+                            android:layout_marginTop="10dp"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/purple_500" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</ScrollView>

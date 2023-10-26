@@ -13,5 +13,5 @@
         android:id="@+id/user_settings_bottom_bar"
         android:enabled="true"
         android:icon="@drawable/settings_bottom_bar"
-        android:title="User Settings"/>
+        android:title="Settings"/>
 </menu>
