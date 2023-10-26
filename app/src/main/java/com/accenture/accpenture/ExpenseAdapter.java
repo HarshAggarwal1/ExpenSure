@@ -9,7 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>{
     private ArrayList<ExpenseFragmentDataModel> dataHolder;
@@ -33,6 +36,9 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         holder.commodityQuantity.setText(quantity);
         String category = "Category: " + dataHolder.get(position).category;
         holder.category.setText(category);
+        String timeStamp = String.valueOf(dataHolder.get(position).getTimestamp());
+        String date = "Date: " + getDayFromTimestamp(timeStamp) + "/" + getMonthFromTimestamp(timeStamp) + "/" + getYearFromTimestamp(timeStamp);
+        holder.date.setText(date);
         holder.deleteCategory.setOnClickListener(v -> {
             dataHolder.remove(holder.getAdapterPosition());
             notifyItemRemoved(holder.getAdapterPosition());
@@ -50,6 +56,7 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         TextView price;
         TextView commodityQuantity;
         TextView category;
+        TextView date;
         ImageButton deleteCategory;
         public ExpenseViewHolder(@NonNull View view) {
             super(view);
@@ -58,6 +65,31 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
             commodityQuantity = view.findViewById(R.id.textViewQuantityCard);
             category = view.findViewById(R.id.textViewCategoryCard);
             deleteCategory = view.findViewById(R.id.imageButtonCategoryDelete);
+            date = view.findViewById(R.id.textViewDateCard);
         }
+    }
+    private String getMonthFromTimestamp(String timeStamp) {
+        Timestamp ts = new Timestamp(Long.parseLong(timeStamp));
+        Date date = new Date(ts.getTime());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+        return String.valueOf(month + 1);
+    }
+    private String getYearFromTimestamp(String timeStamp) {
+        Timestamp ts = new Timestamp(Long.parseLong(timeStamp));
+        Date date = new Date(ts.getTime());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        return String.valueOf(year);
+    }
+    private String getDayFromTimestamp(String timeStamp) {
+        Timestamp ts = new Timestamp(Long.parseLong(timeStamp));
+        Date date = new Date(ts.getTime());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        return String.valueOf(day);
     }
 }

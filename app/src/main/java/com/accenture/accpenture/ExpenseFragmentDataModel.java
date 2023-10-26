@@ -19,14 +19,19 @@ public class ExpenseFragmentDataModel{
     public String getCategory() {
         return category;
     }
+    public long getTimestamp() {
+        return timestamp;
+    }
 
     String commodityQuantity;
     String category;
+    long timestamp;
 
-    public ExpenseFragmentDataModel(String commodityName, String commodityPrice, String commodityQuantity, String category) {
+    public ExpenseFragmentDataModel(String commodityName, String commodityPrice, String commodityQuantity, String category, long timestamp) {
         this.commodityName = commodityName;
         this.commodityPrice = commodityPrice;
         this.commodityQuantity = commodityQuantity;
         this.category = category;
+        this.timestamp = timestamp;
     }
 }

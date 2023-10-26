@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="end"
+        android:orientation="horizontal"
         android:background="@color/grayish_white">
         <Button
             android:layout_width="wrap_content"
@@ -19,6 +20,22 @@
             android:textColor="@color/purple_500"
             android:layout_marginEnd="10dp"
             android:id="@+id/buttonSaveExpense"/>
+        <ImageView
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/calendar_24dp"
+            android:contentDescription="calendar_icon"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/imageViewCalendarIconAddExpense" />
 
     </LinearLayout>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -68,7 +85,7 @@
                     app:endIconMode="clear_text"
                     android:textColorHint="@color/purple_500"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:hint="Commodity Name">
+                    android:hint="Item Name">
                     <com.google.android.material.textfield.TextInputEditText
                         android:textColor="@color/purple_500"
                         android:layout_width="match_parent"
@@ -97,7 +114,7 @@
                     app:endIconMode="clear_text"
                     android:textColorHint="@color/purple_500"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:hint="Price">
+                    android:hint="Amount">
                     <com.google.android.material.textfield.TextInputEditText
                         android:textColor="@color/purple_500"
                         android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.accenture.accpenture.activities;
 
 import static java.util.Objects.requireNonNull;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,7 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.accenture.accpenture.ExpenseAdapter;
 import com.accenture.accpenture.ExpenseFragmentDataModel;
 import com.accenture.accpenture.R;
+import com.accenture.accpenture.TableAdapter;
+import com.accenture.accpenture.TableDataModel;
 import com.accenture.accpenture.database.Database;
+import com.accenture.accpenture.database.ExpenseData;
 import com.accenture.accpenture.database.ExpensesHelperClassFirebase;
 import com.accenture.accpenture.database.FetchExpenseDataFromFirebase;
 import com.accenture.accpenture.database.UserHelperClassFirebase;
@@ -38,6 +44,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -59,6 +66,7 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
     private ExpensesHelperClassFirebase helperClass;
     private Database database;
     private Dialog dialog;
+    private long pickedTimeStamp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -115,12 +123,13 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
             String commodityPrice = expenseFragmentDataModel.getCommodityPrice();
             String commodityQuantity = expenseFragmentDataModel.getCommodityQuantity();
             String category = expenseFragmentDataModel.getCategory();
+            long timeStamp = expenseFragmentDataModel.getTimestamp();
 
             int j = 0;
             while (j < 320) {
                 j++;
             }
-            saveInDatabaseItem(commodityName, commodityPrice, commodityQuantity, category);
+            saveInDatabaseItem(commodityName, commodityPrice, commodityQuantity, category, timeStamp);
         }
         if (dataHolder.size() == i) {
             hideProgressBar();
@@ -130,7 +139,7 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
         onBackPressed();
     }
 
-    private void saveInDatabaseItem(String commodityName, String commodityPrice, String commodityQuantity, String commodityCategory) {
+    private void saveInDatabaseItem(String commodityName, String commodityPrice, String commodityQuantity, String commodityCategory, long timeStamp) {
 
         rootNode = FirebaseDatabase.getInstance();
         reference = rootNode.getReference("expenses");
@@ -140,7 +149,7 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
 
         String userNameExpensesFirebase = database.appDao().getFirstRow().getUsername();
 
-        String currTimeStamp = String.valueOf(System.currentTimeMillis());
+        String currTimeStamp = String.valueOf(timeStamp);
 
         helperClass = new ExpensesHelperClassFirebase(currTimeStamp, userNameExpensesFirebase, commodityCategory, commodityPrice, commodityName, commodityQuantity, dateString);
 
@@ -175,9 +184,30 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
         TextInputLayout commodityEditText = view.findViewById(R.id.editTextCommodityNameExpense);
         TextInputLayout amountEditText = view.findViewById(R.id.editTextPriceExpense);
         TextInputLayout quantityEditText = view.findViewById(R.id.editTextQuantityExpense);
+        ImageView imageViewDatePicker = view.findViewById(R.id.imageViewCalendarIconAddExpense);
 
         Button saveButton = view.findViewById(R.id.buttonSaveExpense);
-
+        pickedTimeStamp = System.currentTimeMillis();
+        imageViewDatePicker.setOnClickListener(v -> {
+            final Calendar calendar = Calendar.getInstance();
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    AddExpense.this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            // timestamp convert from year month and dayOfMonth
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, month, dayOfMonth);
+                            pickedTimeStamp = calendar.getTimeInMillis();
+                        }
+                    },
+                    year, month, dayOfMonth);
+            datePickerDialog.show();
+            datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        });
 
 
         saveButton.setOnClickListener(v -> {
@@ -211,7 +241,7 @@ public class AddExpense extends AppCompatActivity implements AdapterView.OnItemS
             else {
                 quantityEditText.setError(null);
             }
-            dataHolder.add(new ExpenseFragmentDataModel(commodityString, amountString, quantityString, selectedCategory));
+            dataHolder.add(new ExpenseFragmentDataModel(commodityString, amountString, quantityString, selectedCategory, pickedTimeStamp));
             ExpenseAdapter expenseAdapter = new ExpenseAdapter(dataHolder);
             recyclerView.setAdapter(expenseAdapter);
             bottomSheetDialog.dismiss();
