@@ -36,9 +36,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.textView.setText(dataHolder.get(position).getText());
-        if (position % 2 == 0) {
-            holder.cardView.setBackgroundColor(Color.rgb(22, 2, 78));
-        }
         holder.cardView.setOnClickListener(v -> {
             String dataHolderCategory = dataHolder.get(position).getText();
             Intent intent;
